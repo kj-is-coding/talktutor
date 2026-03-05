@@ -48,6 +48,10 @@ interface PreferencesRow {
   updated_at: string;
 }
 
+// Cast to bypass Supabase type issues (types not generated yet)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const db = supabase as any;
+
 // ============ MAPPINGS ============
 
 function rowToSession(row: SessionRow): Session {
@@ -105,7 +109,7 @@ function rowToUserPreferences(row: PreferencesRow): UserPreferences {
 // ============ SESSIONS ============
 
 export async function createSession(session: Omit<Session, 'id' | 'createdAt'>): Promise<Session> {
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('sessions')
     .insert({
       user_id: session.userId,
@@ -124,7 +128,7 @@ export async function createSession(session: Omit<Session, 'id' | 'createdAt'>):
 }
 
 export async function getUserSessions(userId: string, limit: number = 10): Promise<Session[]> {
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('sessions')
     .select('*')
     .eq('user_id', userId)
@@ -145,7 +149,7 @@ export async function addDictionaryEntry(entry: {
   example?: string;
   scenario?: string;
 }): Promise<DictionaryEntry> {
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('dictionary_entries')
     .insert({
       user_id: entry.userId,
@@ -163,7 +167,7 @@ export async function addDictionaryEntry(entry: {
 }
 
 export async function getDictionaryEntries(userId: string, language?: string): Promise<DictionaryEntry[]> {
-  let query = supabase
+  let query = db
     .from('dictionary_entries')
     .select('*')
     .eq('user_id', userId)
@@ -180,7 +184,7 @@ export async function getDictionaryEntries(userId: string, language?: string): P
 }
 
 export async function deleteDictionaryEntry(entryId: string, userId: string): Promise<void> {
-  const { error } = await supabase
+  const { error } = await db
     .from('dictionary_entries')
     .delete()
     .eq('id', entryId)
@@ -194,7 +198,7 @@ export async function deleteDictionaryEntry(entryId: string, userId: string): Pr
 export async function getTodayProgress(userId: string, language: string): Promise<DailyProgress | null> {
   const today = new Date().toISOString().split('T')[0];
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('user_progress')
     .select('*')
     .eq('user_id', userId)
@@ -215,7 +219,7 @@ export async function upsertProgress(
   const today = new Date().toISOString().split('T')[0];
 
   // Try to get existing progress
-  const { data: existing, error: fetchError } = await supabase
+  const { data: existing, error: fetchError } = await db
     .from('user_progress')
     .select('*')
     .eq('user_id', userId)
@@ -228,7 +232,7 @@ export async function upsertProgress(
   if (existing) {
     const row = existing as ProgressRow;
     // Update existing
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from('user_progress')
       .update({
         seconds_spoken: row.seconds_spoken + secondsToAdd,
@@ -242,7 +246,7 @@ export async function upsertProgress(
     return rowToDailyProgress(data as ProgressRow);
   } else {
     // Create new
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from('user_progress')
       .insert({
         user_id: userId,
@@ -264,7 +268,7 @@ export async function getWeeklyProgress(userId: string, language: string): Promi
   const weekAgo = new Date(today);
   weekAgo.setDate(weekAgo.getDate() - 6);
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('user_progress')
     .select('*')
     .eq('user_id', userId)
@@ -279,7 +283,7 @@ export async function getWeeklyProgress(userId: string, language: string): Promi
 // ============ STREAK CALCULATION ============
 
 export async function getStreakInfo(userId: string, language: string): Promise<{ current: number; best: number }> {
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('user_progress')
     .select('date')
     .eq('user_id', userId)
@@ -294,7 +298,7 @@ export async function getStreakInfo(userId: string, language: string): Promise<{
     return { current: 0, best: 0 };
   }
 
-  const dates = data.map((p) => p.date);
+  const dates = data.map((p: { date: string }) => p.date);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -324,7 +328,7 @@ export async function getStreakInfo(userId: string, language: string): Promise<{
 // ============ USER PREFERENCES ============
 
 export async function getUserPreferences(userId: string): Promise<UserPreferences | null> {
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('user_preferences')
     .select('*')
     .eq('user_id', userId)
@@ -338,7 +342,7 @@ export async function upsertUserPreferences(
   userId: string,
   preferences: Partial<Omit<UserPreferences, 'id' | 'userId' | 'createdAt' | 'updatedAt'>>
 ): Promise<UserPreferences> {
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('user_preferences')
     .upsert({
       user_id: userId,

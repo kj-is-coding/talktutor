@@ -6,9 +6,6 @@ import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-// Whitelist of allowed emails
-const ALLOWED_EMAILS = ["karlasgerjuhl@gmail.com"];
-
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "sent" | "error">("idle");
@@ -21,10 +18,25 @@ function LoginForm() {
     setStatus("loading");
     setError("");
 
-    // Check email whitelist
-    if (!ALLOWED_EMAILS.includes(email.toLowerCase().trim())) {
+    // Check email whitelist via API
+    try {
+      const checkResponse = await fetch('/api/auth/check-whitelist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      const { isWhitelisted } = await checkResponse.json();
+
+      if (!isWhitelisted) {
+        setStatus("error");
+        setError("This app is in private beta. Contact the developer for access.");
+        return;
+      }
+    } catch (err) {
+      console.error('Whitelist check failed:', err);
       setStatus("error");
-      setError("This app is in private beta. Contact the developer for access.");
+      setError("Unable to verify access. Please try again.");
       return;
     }
 
