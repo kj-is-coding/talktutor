@@ -6,6 +6,9 @@ import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+// Whitelist of allowed emails
+const ALLOWED_EMAILS = ["karlasgerjuhl@gmail.com"];
+
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "sent" | "error">("idle");
@@ -17,6 +20,13 @@ function LoginForm() {
     e.preventDefault();
     setStatus("loading");
     setError("");
+
+    // Check email whitelist
+    if (!ALLOWED_EMAILS.includes(email.toLowerCase().trim())) {
+      setStatus("error");
+      setError("This app is in private beta. Contact the developer for access.");
+      return;
+    }
 
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithOtp({
