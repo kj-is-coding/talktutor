@@ -9,9 +9,9 @@ import { cn } from "@/lib/utils";
 
 function getGreeting(): string {
   const hour = new Date().getHours();
-  if (hour < 12) return "Good morning!";
-  if (hour < 17) return "Good afternoon!";
-  return "Good evening!";
+  if (hour < 12) return "Good morning";
+  if (hour < 17) return "Good afternoon";
+  return "Good evening";
 }
 
 function getMessageText(message: UIMessage): string {
@@ -21,7 +21,6 @@ function getMessageText(message: UIMessage): string {
     .join("");
 }
 
-/** Lightweight markdown: bold, italic, inline code, line breaks */
 function renderMarkdown(text: string): React.ReactNode {
   const lines = text.split("\n");
   return lines.map((line, i) => {
@@ -113,17 +112,17 @@ export function Chat() {
       {/* Messages */}
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
         {messages.length === 0 && (
-          <div className="flex flex-col items-center justify-center h-full gap-6 pb-4">
-            <div className="text-center">
-              <p className="text-xl font-semibold text-foreground mb-1">{getGreeting()}</p>
-              <p className="text-sm text-muted-foreground">Start chatting to practice your language skills</p>
+          <div className="flex flex-col items-center justify-center h-full gap-8 pb-4">
+            <div className="text-center space-y-1">
+              <p className="text-lg font-medium text-foreground">{getGreeting()}</p>
+              <p className="text-sm text-muted-foreground">What would you like to practice?</p>
             </div>
-            <div className="flex flex-wrap gap-2 justify-center">
+            <div className="flex flex-wrap gap-2 justify-center max-w-sm">
               {SUGGESTION_CHIPS.map((chip) => (
                 <button
                   key={chip.label}
                   onClick={() => handleChipSelect(chip.message)}
-                  className="px-4 py-2 rounded-full text-sm bg-muted text-foreground hover:bg-accent transition-colors"
+                  className="px-4 py-2 rounded-full text-[13px] font-medium bg-accent text-foreground/80 hover:bg-secondary hover:text-foreground transition-colors"
                 >
                   {chip.label}
                 </button>
@@ -140,17 +139,7 @@ export function Chat() {
               key={message.id}
               className={cn("flex msg-in", isUser ? "justify-end" : "justify-start")}
             >
-              <div
-                className="text-[15px] leading-relaxed"
-                style={{
-                  maxWidth: "82%",
-                  padding: "10px 14px",
-                  borderRadius: isUser ? "18px 18px 4px 18px" : "18px 18px 18px 4px",
-                  background: isUser ? "var(--brand)" : "var(--muted)",
-                  color: isUser ? "#fff" : "var(--foreground)",
-                  wordBreak: "break-word",
-                }}
-              >
+              <div className={cn("bubble", isUser ? "bubble-user" : "bubble-assistant")}>
                 {isUser ? content : renderMarkdown(content)}
               </div>
             </div>
@@ -159,14 +148,7 @@ export function Chat() {
 
         {isLoading && (
           <div className="flex justify-start msg-in">
-            <div
-              className="flex gap-[5px] items-center"
-              style={{
-                padding: "12px 16px",
-                borderRadius: "18px 18px 18px 4px",
-                background: "var(--muted)",
-              }}
-            >
+            <div className="bubble-loading flex gap-[5px] items-center">
               <span className="typing-dot w-1.5 h-1.5 rounded-full bg-muted-foreground inline-block" />
               <span className="typing-dot w-1.5 h-1.5 rounded-full bg-muted-foreground inline-block" />
               <span className="typing-dot w-1.5 h-1.5 rounded-full bg-muted-foreground inline-block" />
@@ -184,29 +166,27 @@ export function Chat() {
       </div>
 
       {/* Input area */}
-      <div className="border-t border-border bg-card">
+      <div className="border-t border-border bg-card/50 backdrop-blur-sm">
         <form onSubmit={handleSubmit} className="flex items-end gap-2 px-3 py-3">
-          {/* Textarea */}
           <Textarea
             ref={textareaRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Message"
+            placeholder="Message..."
             disabled={isLoading}
             rows={1}
-            className="flex-1 resize-none min-h-[44px] max-h-[112px] overflow-y-auto rounded-2xl text-base leading-6 border-border bg-muted focus-visible:ring-1 focus-visible:ring-primary px-4 py-2.5"
+            className="flex-1 resize-none min-h-[44px] max-h-[112px] overflow-y-auto rounded-2xl text-[15px] leading-6 border-border bg-muted focus-visible:ring-1 focus-visible:ring-primary px-4 py-2.5"
           />
 
-          {/* Send button */}
           {hasInput && (
             <Button
               type="submit"
               size="icon"
               disabled={isLoading}
-              className="w-11 h-11 rounded-full bg-primary text-primary-foreground shrink-0 disabled:opacity-50"
+              className="w-10 h-10 rounded-full bg-primary text-primary-foreground shrink-0 disabled:opacity-50"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
               </svg>
             </Button>

@@ -1,21 +1,57 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { Settings, ChevronRight, LogOut, User, Bell, Globe } from 'lucide-react';
+import { Settings, ChevronRight, LogOut, Globe, BarChart3, Check, X } from 'lucide-react';
 import { createClient } from '@/lib/auth-client';
 import { Button } from '@/components/ui/button';
 import { LANGUAGES, LEVELS, UserPreferences } from '@/lib/types';
 import { getUserPreferences, upsertUserPreferences } from '@/lib/db-operations';
+import { useRouter } from 'next/navigation';
+
+function Sheet({
+  open,
+  onClose,
+  title,
+  children,
+}: {
+  open: boolean;
+  onClose: () => void;
+  title: string;
+  children: React.ReactNode;
+}) {
+  if (!open) return null;
+
+  return (
+    <div className="fixed inset-0 z-50" onClick={onClose}>
+      <div className="absolute inset-0 bg-black/50 sheet-overlay" />
+      <div
+        className="absolute bottom-0 left-0 right-0 bg-card rounded-t-2xl sheet-content"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between px-5 pt-5 pb-3">
+          <h3 className="text-lg font-semibold">{title}</h3>
+          <button
+            onClick={onClose}
+            className="w-8 h-8 flex items-center justify-center rounded-full bg-accent text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+        <div className="px-5 pb-8 max-h-[60vh] overflow-y-auto">
+          {children}
+        </div>
+        <div className="h-[env(safe-area-inset-bottom)]" />
+      </div>
+    </div>
+  );
+}
 
 export default function SettingsPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [preferences, setPreferences] = useState<UserPreferences | null>(null);
   const [showLanguageSelect, setShowLanguageSelect] = useState(false);
-
   const [showLevelSelect, setShowLevelSelect] = useState(false);
-  const [showDialectSelect, setShowDialectSelect] = useState(false);
 
   useEffect(() => {
     async function fetchPreferences() {
@@ -28,7 +64,6 @@ export default function SettingsPage() {
           if (prefs) {
             setPreferences(prefs);
           } else {
-            // Default preferences for new users
             setPreferences({
               id: '',
               userId: user.id,
@@ -61,7 +96,6 @@ export default function SettingsPage() {
       }
     } catch (err) {
       console.error('Failed to update preferences:', err);
-      // Still update local state optimistically
       setPreferences(prev => prev ? { ...prev, ...updates } : null);
     }
   };
@@ -74,10 +108,10 @@ export default function SettingsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-[calc(100vh-5rem)] bg-[#0c0c0e] px-4 py-6">
-        <div className="space-y-4">
+      <div className="min-h-[calc(100dvh-5rem)] bg-background px-5 py-6">
+        <div className="space-y-3">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="h-16 bg-white/5 rounded-xl animate-pulse" />
+            <div key={i} className="h-16 skeleton rounded-xl" />
           ))}
         </div>
       </div>
@@ -85,160 +119,131 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-5rem)] bg-[#0c0c0e] px-4 py-6">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">Settings</h1>
-      </div>
+    <div className="min-h-[calc(100dvh-5rem)] bg-background px-5 py-6">
+      <h1 className="text-xl font-semibold tracking-tight mb-6">Settings</h1>
 
-      <div className="space-y-6">
+      <div className="space-y-1.5">
         {/* Language */}
         <button
           onClick={() => setShowLanguageSelect(true)}
-          className="w-full bg-white/5 hover:bg-white/10 rounded-xl p-4 flex items-center justify-between"
+          className="w-full bg-accent hover:bg-secondary rounded-xl p-4 flex items-center justify-between transition-colors"
         >
           <div className="flex items-center gap-3">
-            <Globe className="w-5 h-5 text-white/60" />
+            <Globe className="w-[18px] h-[18px] text-muted-foreground" />
             <div className="text-left">
-              <p className="text-sm text-white/60">Language</p>
-              <p className="font-medium">{preferences?.language || 'Spanish'}</p>
+              <p className="text-[13px] text-muted-foreground">Language</p>
+              <p className="text-[15px] font-medium">{preferences?.language || 'Spanish'}</p>
             </div>
           </div>
-          <ChevronRight className="w-5 h-5 text-white/40" />
+          <ChevronRight className="w-4 h-4 text-muted-foreground" />
         </button>
 
         {/* Level */}
         <button
           onClick={() => setShowLevelSelect(true)}
-          className="w-full bg-white/5 hover:bg-white/10 rounded-xl p-4 flex items-center justify-between"
+          className="w-full bg-accent hover:bg-secondary rounded-xl p-4 flex items-center justify-between transition-colors"
         >
           <div className="flex items-center gap-3">
-            <Bell className="w-5 h-5 text-white/60" />
+            <BarChart3 className="w-[18px] h-[18px] text-muted-foreground" />
             <div className="text-left">
-              <p className="text-sm text-white/60">Level</p>
-              <p className="font-medium capitalize">{preferences?.level || 'intermediate'}</p>
+              <p className="text-[13px] text-muted-foreground">Level</p>
+              <p className="text-[15px] font-medium capitalize">{preferences?.level || 'intermediate'}</p>
             </div>
           </div>
-          <ChevronRight className="w-5 h-5 text-white/40" />
+          <ChevronRight className="w-4 h-4 text-muted-foreground" />
         </button>
 
         {/* Daily Goal */}
-        <div className="w-full bg-white/5 rounded-xl p-4">
-          <div className="flex items-center justify-between mb-3">
+        <div className="bg-accent rounded-xl p-4">
+          <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <Settings className="w-5 h-5 text-white/60" />
-              <p className="text-sm text-white/60">Daily Goal</p>
+              <Settings className="w-[18px] h-[18px] text-muted-foreground" />
+              <p className="text-[13px] text-muted-foreground">Daily Goal</p>
             </div>
-            <span className="font-medium">{preferences?.dailyGoalMinutes || 10} min</span>
+            <span className="text-[15px] font-medium tabular-nums">{preferences?.dailyGoalMinutes || 10} min</span>
           </div>
           <input
             type="range"
             min="5"
             max="30"
+            step="5"
             value={preferences?.dailyGoalMinutes || 10}
             onChange={(e) => handleUpdatePreferences({ dailyGoalMinutes: parseInt(e.target.value) })}
-            className="w-full h-2 bg-white/10 rounded-full appearance-none cursor-pointer"
+            className="w-full"
           />
-        </div>
-
-        {/* Account */}
-        <div className="pt-6 border-t border-white/10">
-          <h2 className="text-sm font-medium text-white/40 mb-4">Account</h2>
-          <Button
-            variant="ghost"
-            onClick={handleSignOut}
-            className="w-full justify-start text-red-400 hover:text-red-300 hover:bg-red-500/10"
-          >
-            <LogOut className="w-5 h-5 mr-3" />
-            Sign Out
-          </Button>
-        </div>
-
-        {/* About */}
-        <div className="pt-6 border-t border-white/10">
-          <h2 className="text-sm font-medium text-white/40 mb-4">About</h2>
-          <p className="text-sm text-white/40">
-            TalkTutor helps you learn languages through voice-first conversation practice with AI.
-          </p>
         </div>
       </div>
 
-      {/* Language Select Modal */}
-      {showLanguageSelect && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm">
-          <div
-            className="absolute bottom-0 left-0 right-0 bg-[#1a1a1c] rounded-t-3xl p-6"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-semibold">Select Language</h3>
-              <button
-                onClick={() => setShowLanguageSelect(false)}
-                className="text-white/60 hover:text-white"
-              >
-                ✕
-              </button>
-            </div>
-            <div className="space-y-2">
-              {LANGUAGES.map((lang) => (
-                <button
-                  key={lang.code}
-                  onClick={() => {
-                    handleUpdatePreferences({ language: lang.name });
-                    setShowLanguageSelect(false);
-                  }}
-                  className={`w-full p-4 rounded-xl text-left transition-all ${
-                    preferences?.language === lang.name
-                      ? 'bg-purple-500/20 border-2 border-purple-500'
-                      : 'bg-white/5 border-2 border-transparent hover:bg-white/10'
-                  }`}
-                >
-                  <p className="font-medium">{lang.name}</p>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Account */}
+      <div className="mt-8 pt-6 border-t border-border">
+        <p className="text-[13px] font-medium text-muted-foreground mb-3 px-1">Account</p>
+        <Button
+          variant="ghost"
+          onClick={handleSignOut}
+          className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10 rounded-xl"
+        >
+          <LogOut className="w-4 h-4 mr-2.5" />
+          Sign Out
+        </Button>
+      </div>
 
-      {/* Level Select Modal */}
-      {showLevelSelect && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm">
-          <div
-            className="absolute bottom-0 left-0 right-0 bg-[#1a1a1c] rounded-t-3xl p-6"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-semibold">Select Level</h3>
-              <button
-                onClick={() => setShowLevelSelect(false)}
-                className="text-white/60 hover:text-white"
-              >
-                ✕
-              </button>
-            </div>
-            <div className="space-y-2">
-              {LEVELS.map((level) => (
-                <button
-                  key={level.code}
-                  onClick={() => {
-                    handleUpdatePreferences({ level: level.code as any });
-                    setShowLevelSelect(false);
-                  }}
-                  className={`w-full p-4 rounded-xl text-left transition-all ${
-                    preferences?.level === level.code
-                      ? 'bg-purple-500/20 border-2 border-purple-500'
-                      : 'bg-white/5 border-2 border-transparent hover:bg-white/10'
-                  }`}
-                >
-                  <p className="font-medium">{level.name}</p>
-                  <p className="text-sm text-white/60">{level.description}</p>
-                </button>
-              ))}
-            </div>
-          </div>
+      {/* About */}
+      <div className="mt-6 pt-6 border-t border-border">
+        <p className="text-[13px] text-muted-foreground px-1 leading-relaxed">
+          TalkTutor helps you learn languages through conversation practice with AI.
+        </p>
+      </div>
+
+      {/* Language Sheet */}
+      <Sheet
+        open={showLanguageSelect}
+        onClose={() => setShowLanguageSelect(false)}
+        title="Language"
+      >
+        <div className="space-y-1.5">
+          {LANGUAGES.map((lang) => (
+            <button
+              key={lang.code}
+              onClick={() => {
+                handleUpdatePreferences({ language: lang.name });
+                setShowLanguageSelect(false);
+              }}
+              data-selected={preferences?.language === lang.name}
+              className="selection-card flex items-center justify-between"
+            >
+              <p className="font-medium text-[15px]">{lang.name}</p>
+              {preferences?.language === lang.name && <Check className="w-4 h-4 text-primary" />}
+            </button>
+          ))}
         </div>
-      )}
+      </Sheet>
+
+      {/* Level Sheet */}
+      <Sheet
+        open={showLevelSelect}
+        onClose={() => setShowLevelSelect(false)}
+        title="Level"
+      >
+        <div className="space-y-1.5">
+          {LEVELS.map((lvl) => (
+            <button
+              key={lvl.code}
+              onClick={() => {
+                handleUpdatePreferences({ level: lvl.code as any });
+                setShowLevelSelect(false);
+              }}
+              data-selected={preferences?.level === lvl.code}
+              className="selection-card flex items-center justify-between"
+            >
+              <div className="text-left">
+                <p className="font-medium text-[15px]">{lvl.name}</p>
+                <p className="text-[13px] text-muted-foreground">{lvl.description}</p>
+              </div>
+              {preferences?.level === lvl.code && <Check className="w-4 h-4 text-primary shrink-0" />}
+            </button>
+          ))}
+        </div>
+      </Sheet>
     </div>
   );
 }

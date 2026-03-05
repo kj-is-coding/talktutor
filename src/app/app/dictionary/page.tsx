@@ -14,7 +14,6 @@ export default function DictionaryPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedEntry, setSelectedEntry] = useState<DictionaryEntry | null>(null);
 
-  // Fetch entries from Supabase
   useEffect(() => {
     async function fetchEntries() {
       try {
@@ -25,9 +24,8 @@ export default function DictionaryPage() {
           const data = await getDictionaryEntries(user.id);
           setEntries(data || []);
         } else {
-          // Fallback mock data for demo/unauthenticated
           const mockEntries: DictionaryEntry[] = [
-            { id: '1', userId: 'demo', language: 'Spanish', term: 'café', meaning: 'Coffee shop', example: 'Voy a tomar un café.', scenario: 'cafe', createdAt: new Date() },
+            { id: '1', userId: 'demo', language: 'Spanish', term: 'cafe', meaning: 'Coffee shop', example: 'Voy a tomar un cafe.', scenario: 'cafe', createdAt: new Date() },
             { id: '2', userId: 'demo', language: 'Spanish', term: 'mesa', meaning: 'Table', example: 'Una mesa para dos, por favor.', scenario: 'restaurant', createdAt: new Date() },
           ];
           setEntries(mockEntries);
@@ -57,51 +55,48 @@ export default function DictionaryPage() {
 
   if (selectedEntry) {
     return (
-      <div className="min-h-[calc(100vh-5rem)] bg-[#0c0c0e] px-4 py-6">
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-6">
+      <div className="min-h-[calc(100dvh-5rem)] bg-background px-5 py-6 animate-in">
+        <div className="flex items-center gap-3 mb-6">
           <button
             onClick={() => setSelectedEntry(null)}
-            className="text-white/60 hover:text-white"
+            className="w-8 h-8 flex items-center justify-center rounded-lg bg-accent text-muted-foreground hover:text-foreground transition-colors"
           >
-            <ArrowLeft className="w-6 h-6" />
+            <ArrowLeft className="w-4 h-4" />
           </button>
-          <h1 className="text-xl font-bold">{selectedEntry.term}</h1>
+          <h1 className="text-lg font-semibold">{selectedEntry.term}</h1>
         </div>
 
-        {/* Word Details */}
-        <div className="space-y-6">
-          <div className="bg-white/5 rounded-2xl p-6">
-            <p className="text-sm text-white/60 mb-2">Meaning</p>
-            <p className="text-lg">{selectedEntry.meaning || '—'}</p>
+        <div className="space-y-3">
+          <div className="bg-accent rounded-xl p-5">
+            <p className="text-[13px] text-muted-foreground mb-1.5">Meaning</p>
+            <p className="text-[15px]">{selectedEntry.meaning || '—'}</p>
           </div>
 
           {selectedEntry.example && (
-            <div className="bg-white/5 rounded-2xl p-6">
-              <p className="text-sm text-white/60 mb-2">Example</p>
-              <p className="text-lg italic">"{selectedEntry.example}"</p>
+            <div className="bg-accent rounded-xl p-5">
+              <p className="text-[13px] text-muted-foreground mb-1.5">Example</p>
+              <p className="text-[15px] italic text-foreground/80">&ldquo;{selectedEntry.example}&rdquo;</p>
             </div>
           )}
 
           {selectedEntry.scenario && (
-            <div className="bg-white/5 rounded-2xl p-6">
-              <p className="text-sm text-white/60 mb-2">Learned in</p>
-              <p className="text-lg">{selectedEntry.scenario}</p>
+            <div className="bg-accent rounded-xl p-5">
+              <p className="text-[13px] text-muted-foreground mb-1.5">Learned in</p>
+              <p className="text-[15px] capitalize">{selectedEntry.scenario}</p>
             </div>
           )}
 
-          {/* Actions */}
-          <div className="pt-4 space-y-3">
+          <div className="pt-4 space-y-1.5">
             <Button
               variant="ghost"
-              className="w-full justify-start text-left"
+              className="w-full justify-start rounded-xl"
             >
               <BookOpen className="w-4 h-4 mr-2" />
               Add to flashcards
             </Button>
             <Button
               variant="ghost"
-              className="w-full justify-start text-destructive hover:text-red-400"
+              className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10 rounded-xl"
               onClick={async () => {
                 try {
                   const supabase = createClient();
@@ -126,53 +121,50 @@ export default function DictionaryPage() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-5rem)] bg-[#0c0c0e] px-4 py-6">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">Dictionary</h1>
-        <span className="text-sm text-white/60">{entries.length} words</span>
+    <div className="min-h-[calc(100dvh-5rem)] bg-background px-5 py-6">
+      <div className="flex items-center justify-between mb-5">
+        <h1 className="text-xl font-semibold tracking-tight">Dictionary</h1>
+        <span className="text-[13px] text-muted-foreground tabular-nums">{entries.length} words</span>
       </div>
 
-      {/* Search */}
-      <div className="mb-6">
+      <div className="mb-5">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 w-5 h-5 text-white/40" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search words..."
-            className="pl-10 h-12 bg-white/5 border-0 rounded-xl"
+            className="pl-10 h-11 bg-accent border-0 rounded-xl text-[15px]"
           />
         </div>
       </div>
 
-      {/* Word List */}
       {loading ? (
-        <div className="space-y-3">
+        <div className="space-y-2">
           {[...Array(5)].map((_, i) => (
-            <div key={i} className="h-16 bg-white/5 rounded-xl animate-pulse" />
+            <div key={i} className="h-16 skeleton rounded-xl" />
           ))}
         </div>
       ) : (
         <div className="space-y-6">
-          {/* Today */}
           {todayEntries.length > 0 && (
             <div>
-              <h2 className="text-sm font-medium text-white/60 mb-3">New today</h2>
-              <div className="space-y-2">
-                {todayEntries.map((entry) => (
+              <p className="text-[13px] font-medium text-muted-foreground mb-2 px-1">New today</p>
+              <div className="space-y-1">
+                {todayEntries.map((entry, i) => (
                   <button
                     key={entry.id}
                     onClick={() => setSelectedEntry(entry)}
-                    className="w-full bg-white/5 hover:bg-white/10 rounded-xl p-4 text-left transition-colors"
+                    className="list-item-in w-full bg-accent hover:bg-secondary rounded-xl p-4 text-left transition-colors"
+                    style={{ animationDelay: `${i * 50}ms` }}
                   >
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="font-medium text-lg">{entry.term}</p>
-                        <p className="text-sm text-white/60">{entry.meaning}</p>
+                        <p className="font-medium text-[15px]">{entry.term}</p>
+                        <p className="text-[13px] text-muted-foreground">{entry.meaning}</p>
                       </div>
                       {entry.scenario && (
-                        <span className="text-xs text-white/40 bg-white/10 px-2 py-1 rounded">
+                        <span className="text-[11px] text-muted-foreground bg-secondary px-2 py-0.5 rounded-md">
                           {entry.scenario}
                         </span>
                       )}
@@ -183,24 +175,24 @@ export default function DictionaryPage() {
             </div>
           )}
 
-          {/* Recent */}
           {olderEntries.length > 0 && (
             <div>
-              <h2 className="text-sm font-medium text-white/60 mb-3">Recent</h2>
-              <div className="space-y-2">
-                {olderEntries.map((entry) => (
+              <p className="text-[13px] font-medium text-muted-foreground mb-2 px-1">Recent</p>
+              <div className="space-y-1">
+                {olderEntries.map((entry, i) => (
                   <button
                     key={entry.id}
                     onClick={() => setSelectedEntry(entry)}
-                    className="w-full bg-white/5 hover:bg-white/10 rounded-xl p-4 text-left transition-colors"
+                    className="list-item-in w-full bg-accent hover:bg-secondary rounded-xl p-4 text-left transition-colors"
+                    style={{ animationDelay: `${i * 50}ms` }}
                   >
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="font-medium text-lg">{entry.term}</p>
-                        <p className="text-sm text-white/60">{entry.meaning}</p>
+                        <p className="font-medium text-[15px]">{entry.term}</p>
+                        <p className="text-[13px] text-muted-foreground">{entry.meaning}</p>
                       </div>
                       {entry.scenario && (
-                        <span className="text-xs text-white/40 bg-white/10 px-2 py-1 rounded">
+                        <span className="text-[11px] text-muted-foreground bg-secondary px-2 py-0.5 rounded-md">
                           {entry.scenario}
                         </span>
                       )}
@@ -211,12 +203,11 @@ export default function DictionaryPage() {
             </div>
           )}
 
-          {/* Empty state */}
           {filteredEntries.length === 0 && (
-            <div className="text-center py-12">
-              <BookOpen className="w-12 h-12 mx-auto text-white/20 mb-4" />
-              <p className="text-white/60">
-                {searchQuery ? 'No words found' : 'Start a conversation to learn new words!'}
+            <div className="text-center py-16">
+              <BookOpen className="w-8 h-8 mx-auto text-muted-foreground/40 mb-3" />
+              <p className="text-sm text-muted-foreground">
+                {searchQuery ? 'No words found' : 'Start a conversation to learn new words'}
               </p>
             </div>
           )}

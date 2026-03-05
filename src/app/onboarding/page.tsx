@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ChevronDown, Check } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LANGUAGES, LEVELS } from '@/lib/types';
 import { createClient } from '@/lib/auth-client';
@@ -17,12 +17,7 @@ export default function OnboardingPage() {
   const [dialect, setDialect] = useState('');
   const [dailyGoal, setDailyGoal] = useState(10);
 
-  const [showLanguagePicker, setShowLanguagePicker] = useState(false);
-  const [showLevelPicker, setShowLevelPicker] = useState(false);
-  const [showDialectPicker, setShowDialectPicker] = useState(false);
-
   const selectedLanguage = LANGUAGES.find((l) => l.code === language);
-  const selectedLevel = LEVELS.find((l) => l.code === level);
 
   const handleSkip = () => {
     router.push('/app');
@@ -47,15 +42,99 @@ export default function OnboardingPage() {
     router.push('/app');
   };
 
+  const steps = [
+    {
+      title: "What language?",
+      subtitle: "Pick the language you want to practice",
+      content: (
+        <div className="space-y-2">
+          {LANGUAGES.map((lang) => (
+            <button
+              key={lang.code}
+              onClick={() => setLanguage(lang.code)}
+              data-selected={language === lang.code}
+              className="selection-card flex items-center justify-between"
+            >
+              <span className="font-medium text-[15px]">{lang.name}</span>
+              {language === lang.code && <Check className="w-4 h-4 text-primary" />}
+            </button>
+          ))}
+        </div>
+      ),
+    },
+    {
+      title: "Your level?",
+      subtitle: "This helps us adapt the conversation",
+      content: (
+        <div className="space-y-2">
+          {LEVELS.map((lvl) => (
+            <button
+              key={lvl.code}
+              onClick={() => setLevel(lvl.code)}
+              data-selected={level === lvl.code}
+              className="selection-card flex items-center justify-between"
+            >
+              <div className="text-left">
+                <p className="font-medium text-[15px]">{lvl.name}</p>
+                <p className="text-[13px] text-muted-foreground">{lvl.description}</p>
+              </div>
+              {level === lvl.code && <Check className="w-4 h-4 text-primary shrink-0" />}
+            </button>
+          ))}
+        </div>
+      ),
+    },
+    {
+      title: "Dialect preference",
+      subtitle: "Optional — helps with pronunciation",
+      content: (
+        <div className="space-y-2">
+          {(selectedLanguage?.dialects || ['Standard']).map((d) => (
+            <button
+              key={d}
+              onClick={() => setDialect(d)}
+              data-selected={dialect === d}
+              className="selection-card flex items-center justify-between"
+            >
+              <span className="font-medium text-[15px]">{d}</span>
+              {dialect === d && <Check className="w-4 h-4 text-primary" />}
+            </button>
+          ))}
+        </div>
+      ),
+    },
+    {
+      title: "Daily goal",
+      subtitle: "How much practice per day?",
+      content: (
+        <div className="space-y-2">
+          {[5, 10, 15, 20, 30].map((mins) => (
+            <button
+              key={mins}
+              onClick={() => setDailyGoal(mins)}
+              data-selected={dailyGoal === mins}
+              className="selection-card flex items-center justify-between"
+            >
+              <span className="font-medium text-[15px]">{mins} minutes</span>
+              {dailyGoal === mins && <Check className="w-4 h-4 text-primary" />}
+            </button>
+          ))}
+        </div>
+      ),
+    },
+  ];
+
+  const currentStep = steps[step - 1];
+
   return (
-    <div className="min-h-[calc(100vh-5rem)] px-4 py-6 flex flex-col">
-      {/* Progress Indicator */}
-      <div className="flex items-center justify-center gap-2 mb-8">
-        {[1, 2, 3, 4].map((s) => (
+    <div className="min-h-dvh bg-background px-5 py-6 flex flex-col">
+      {/* Progress */}
+      <div className="flex items-center justify-center gap-1.5 mb-10">
+        {steps.map((_, i) => (
           <div
-            key={s}
-            className={`w-8 h-1 rounded-full transition-colors ${
-              s <= step ? 'bg-purple-500' : 'bg-white/10'
+            key={i}
+            className={`h-[3px] rounded-full transition-all duration-300 ${
+              i < step ? 'w-8 bg-primary' : i === step - 1 ? 'w-8 bg-primary' : 'w-8 bg-border'
             }`}
           />
         ))}
@@ -63,127 +142,28 @@ export default function OnboardingPage() {
 
       {/* Step Content */}
       <div className="flex-1">
-        {step === 1 && (
-          <div className="space-y-6">
-            <div className="text-center">
-              <h1 className="text-2xl font-bold mb-2">What language?</h1>
-              <p className="text-white/60 text-sm">Pick the language you want to practice</p>
-            </div>
-
-            <div className="space-y-3">
-              {LANGUAGES.map((lang) => (
-                <button
-                  key={lang.code}
-                  onClick={() => setLanguage(lang.code)}
-                  className={`w-full p-4 rounded-xl flex items-center justify-between transition-all ${
-                    language === lang.code
-                      ? 'bg-purple-500/20 border-2 border-purple-500'
-                      : 'bg-white/5 border-2 border-transparent hover:bg-white/10'
-                  }`}
-                >
-                  <span className="font-medium">{lang.name}</span>
-                  {language === lang.code && <Check className="w-5 h-5 text-purple-400" />}
-                </button>
-              ))}
-            </div>
+        <div className="space-y-6 animate-in" key={step}>
+          <div className="text-center space-y-1.5">
+            <h1 className="text-xl font-semibold tracking-tight">{currentStep.title}</h1>
+            <p className="text-sm text-muted-foreground">{currentStep.subtitle}</p>
           </div>
-        )}
-
-        {step === 2 && (
-          <div className="space-y-6">
-            <div className="text-center">
-              <h1 className="text-2xl font-bold mb-2">Your level?</h1>
-              <p className="text-white/60 text-sm">This helps us adapt the conversation</p>
-            </div>
-
-            <div className="space-y-3">
-              {LEVELS.map((lvl) => (
-                <button
-                  key={lvl.code}
-                  onClick={() => setLevel(lvl.code)}
-                  className={`w-full p-4 rounded-xl flex items-center justify-between transition-all ${
-                    level === lvl.code
-                      ? 'bg-purple-500/20 border-2 border-purple-500'
-                      : 'bg-white/5 border-2 border-transparent hover:bg-white/10'
-                  }`}
-                >
-                  <div className="text-left">
-                    <p className="font-medium">{lvl.name}</p>
-                    <p className="text-sm text-white/60">{lvl.description}</p>
-                  </div>
-                  {level === lvl.code && <Check className="w-5 h-5 text-purple-400" />}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {step === 3 && (
-          <div className="space-y-6">
-            <div className="text-center">
-              <h1 className="text-2xl font-bold mb-2">Dialect preference</h1>
-              <p className="text-white/60 text-sm">Optional - helps with pronunciation</p>
-            </div>
-
-            <div className="space-y-3">
-              {(selectedLanguage?.dialects || ['Standard']).map((d) => (
-                <button
-                  key={d}
-                  onClick={() => setDialect(d)}
-                  className={`w-full p-4 rounded-xl flex items-center justify-between transition-all ${
-                    dialect === d
-                      ? 'bg-purple-500/20 border-2 border-purple-500'
-                      : 'bg-white/5 border-2 border-transparent hover:bg-white/10'
-                  }`}
-                >
-                  <span className="font-medium">{d}</span>
-                  {dialect === d && <Check className="w-5 h-5 text-purple-400" />}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {step === 4 && (
-          <div className="space-y-6">
-            <div className="text-center">
-              <h1 className="text-2xl font-bold mb-2">Daily goal</h1>
-              <p className="text-white/60 text-sm">How much practice per day?</p>
-            </div>
-
-            <div className="space-y-3">
-              {[5, 10, 15, 20, 30].map((mins) => (
-                <button
-                  key={mins}
-                  onClick={() => setDailyGoal(mins)}
-                  className={`w-full p-4 rounded-xl flex items-center justify-between transition-all ${
-                    dailyGoal === mins
-                      ? 'bg-purple-500/20 border-2 border-purple-500'
-                      : 'bg-white/5 border-2 border-transparent hover:bg-white/10'
-                  }`}
-                >
-                  <span className="font-medium">{mins} minutes</span>
-                  {dailyGoal === mins && <Check className="w-5 h-5 text-purple-400" />}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
+          {currentStep.content}
+        </div>
       </div>
 
       {/* Actions */}
-      <div className="space-y-3 pt-6">
+      <div className="space-y-2 pt-6">
         {step < 4 ? (
           <>
             <Button
               onClick={() => setStep(step + 1)}
-              className="w-full py-4 rounded-2xl bg-gradient-to-r from-blue-500 to-purple-600 font-medium text-lg"
+              className="w-full h-12 rounded-xl text-[15px] font-medium"
             >
               Continue
             </Button>
             <button
               onClick={handleSkip}
-              className="w-full py-3 text-white/60 hover:text-white text-sm"
+              className="w-full py-2.5 text-muted-foreground hover:text-foreground text-sm transition-colors"
             >
               Skip for now
             </button>
@@ -191,7 +171,7 @@ export default function OnboardingPage() {
         ) : (
           <Button
             onClick={handleSubmit}
-            className="w-full py-4 rounded-2xl bg-gradient-to-r from-blue-500 to-purple-600 font-medium text-lg"
+            className="w-full h-12 rounded-xl text-[15px] font-medium"
           >
             Start speaking
           </Button>

@@ -36,21 +36,21 @@ function LoginForm() {
 
   if (status === "sent") {
     return (
-      <div className="text-center">
-        <div className="mx-auto mb-5 w-16 h-16 flex items-center justify-center rounded-2xl bg-[var(--success)]/10 border-2 border-[var(--success)]">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--success)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <div className="text-center animate-in">
+        <div className="mx-auto mb-5 w-14 h-14 flex items-center justify-center rounded-2xl bg-success/10">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--success)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M20 6L9 17l-5-5" />
           </svg>
         </div>
-        <h2 className="text-xl font-bold text-foreground mb-2">Check your email</h2>
-        <p className="text-[15px] text-muted-foreground">
+        <h2 className="text-lg font-semibold text-foreground mb-1.5">Check your email</h2>
+        <p className="text-sm text-muted-foreground leading-relaxed">
           We sent a magic link to{" "}
           <span className="text-foreground font-medium">{email}</span>
         </p>
         <button
           type="button"
           onClick={() => setStatus("idle")}
-          className="mt-6 text-sm text-primary"
+          className="mt-6 text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           Use a different email
         </button>
@@ -61,7 +61,7 @@ function LoginForm() {
   return (
     <>
       {authError && (
-        <div className="w-full rounded-xl px-4 py-3 mb-5 text-center text-sm text-destructive bg-destructive/10 border border-destructive">
+        <div className="w-full rounded-xl px-4 py-3 mb-5 text-center text-sm text-destructive bg-destructive/10 border border-destructive/20">
           Authentication failed. Please try again.
         </div>
       )}
@@ -73,19 +73,19 @@ function LoginForm() {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@email.com"
           required
-          className="mb-4 h-14 text-base rounded-xl bg-muted border-border focus-visible:ring-primary"
+          className="mb-3 h-12 text-[15px] rounded-xl bg-muted border-border focus-visible:ring-primary"
         />
 
         {error && (
-          <p className="mb-4 text-sm text-destructive">{error}</p>
+          <p className="mb-3 text-sm text-destructive">{error}</p>
         )}
 
         <Button
           type="submit"
           disabled={status === "loading"}
-          className="w-full h-14 rounded-2xl text-base font-semibold"
+          className="w-full h-12 rounded-xl text-[15px] font-medium"
         >
-          {status === "loading" ? "Sending…" : "Send Magic Link"}
+          {status === "loading" ? "Sending..." : "Continue with email"}
         </Button>
       </form>
     </>
@@ -94,9 +94,9 @@ function LoginForm() {
 
 function LoginFallback() {
   return (
-    <div className="w-full space-y-4">
-      <div className="skeleton rounded-xl h-14" />
-      <div className="skeleton rounded-2xl h-14" />
+    <div className="w-full space-y-3">
+      <div className="skeleton rounded-xl h-12" />
+      <div className="skeleton rounded-xl h-12" />
     </div>
   );
 }
@@ -106,8 +106,8 @@ export default function LoginPage() {
     <div className="min-h-dvh bg-background flex items-center justify-center px-6">
       <div className="w-full max-w-sm flex flex-col items-center">
         {/* Logo */}
-        <div className="mb-6 w-18 h-18 flex items-center justify-center rounded-2xl bg-primary/10 border-2 border-primary" style={{ width: 72, height: 72 }}>
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <div className="mb-8 w-12 h-12 flex items-center justify-center rounded-xl bg-primary/10">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="m5 8 6 6" />
             <path d="m4 14 6-6 2-3" />
             <path d="M2 5h12" />
@@ -117,8 +117,8 @@ export default function LoginPage() {
           </svg>
         </div>
 
-        <h1 className="text-[28px] font-bold text-foreground mb-1 text-center">Language App</h1>
-        <p className="text-[15px] text-muted-foreground mb-8 text-center">
+        <h1 className="text-2xl font-semibold text-foreground mb-1 text-center tracking-tight">TalkTutor</h1>
+        <p className="text-sm text-muted-foreground mb-8 text-center">
           Practice conversations with AI
         </p>
 

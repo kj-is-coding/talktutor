@@ -16,10 +16,10 @@ export function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[#0c0c0e]/95 backdrop-blur-lg border-t border-white/10">
-      <div className="max-w-lg mx-auto flex justify-around items-center h-16 px-4">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-xl border-t border-border">
+      <div className="max-w-lg mx-auto flex justify-around items-center h-14 px-4">
         {navItems.map((item) => {
-          const isActive = pathname === item.href;
+          const isActive = pathname === item.href || (item.href === '/app' && pathname === '/app/chat');
           const Icon = item.icon;
 
           return (
@@ -27,29 +27,23 @@ export function BottomNav() {
               key={item.href}
               href={item.href}
               className={cn(
-                'flex flex-col items-center justify-center gap-1 px-4 py-2 rounded-lg transition-all',
+                'relative flex flex-col items-center justify-center gap-0.5 px-3 py-1.5 rounded-lg transition-colors',
                 isActive
-                  ? 'text-white'
-                  : 'text-white/50 hover:text-white/70'
+                  ? 'text-primary'
+                  : 'text-muted-foreground hover:text-foreground'
               )}
             >
-              <Icon
-                className={cn(
-                  'transition-all',
-                  isActive ? 'w-6 h-6' : 'w-5 h-5'
-                )}
-              />
-              <span className={cn(
-                'text-xs font-medium',
-                isActive && 'text-white'
-              )}>
+              {isActive && (
+                <span className="absolute -top-[9px] w-5 h-[2px] rounded-full bg-primary" />
+              )}
+              <Icon className="w-5 h-5" />
+              <span className="text-[10px] font-medium tracking-wide">
                 {item.label}
               </span>
             </Link>
           );
         })}
       </div>
-      {/* Safe area for iOS */}
       <div className="h-[env(safe-area-inset-bottom)]" />
     </nav>
   );

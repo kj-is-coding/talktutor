@@ -16,7 +16,7 @@ export default async function AppLayout({
   }
 
   return (
-    <div className="min-h-screen bg-[#0c0c0e] text-white">
+    <div className="min-h-screen bg-background text-foreground">
       <main className="pb-20">
         {children}
       </main>
