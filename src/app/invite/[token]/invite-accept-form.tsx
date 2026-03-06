@@ -35,25 +35,36 @@ export function InviteAcceptForm(props: Props) {
     setStatus("loading");
     setErrorMsg(null);
 
-    // Claim the invite (this now also creates auth user and returns session token)
-    const claimResult = await claimGenericInvite(
-      (props as ClaimFormProps).token,
-      email.trim(),
-      name.trim()
-    );
+    // Call the API route to claim invite and set up session
+    try {
+      const response = await fetch('/api/invite/claim', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          token: (props as ClaimFormProps).token,
+          email: email.trim(),
+          name: name.trim(),
+        }),
+      });
 
-    if (!claimResult.success) {
-      setErrorMsg(claimResult.error || "Failed to claim invite");
+      const data = await response.json();
+
+      if (!response.ok) {
+        setErrorMsg(data.error || "Failed to claim invite");
+        setStatus("error");
+        return;
+      }
+
+      setStatus("sent");
+
+      // Redirect to the app or login (as determined by the API)
+      setTimeout(() => {
+        window.location.href = data.redirect || "/app/chat";
+      }, 500);
+    } catch (err) {
+      setErrorMsg("Network error. Please try again.");
       setStatus("error");
-      return;
     }
-
-    setStatus("sent");
-
-    // Redirect to login page with email pre-filled
-    setTimeout(() => {
-      window.location.href = `/login?email=${encodeURIComponent(email.trim().toLowerCase())}`;
-    }, 1000);
   };
 
   const handleAccept = async () => {
@@ -78,7 +89,7 @@ export function InviteAcceptForm(props: Props) {
         </div>
         <h2 className="text-lg font-semibold text-foreground mb-1.5">You're in!</h2>
         <p className="text-sm text-muted-foreground leading-relaxed">
-          Redirecting to login...
+          Setting up your account...
         </p>
       </div>
     );

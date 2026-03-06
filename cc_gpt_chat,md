@@ -1,0 +1,1605 @@
+
+transcript of this video: Transcript of Making Claude Code Actually Remember Things
+
+i'll give you youtube transcript below. i want you to give me your understanding of htis whole thing in a compactw ay please . and hten also like waht i want to know is basically what are theal lthe specific benefits of using obsidian with claude code likes being dmoeed here like whats hte main interaction patterns how wold i use stuff whats hte benefits etc . 
+
+
+
+
+
+
+
+Here is one week of my work and every note which we have here is a conversation with a cloth code. Every link is a file it touched. Here's an example of ordering me Instacart groceries and all of the recipe files which I created and I could go back to this at any point and by the end of the video you'll have this too. A clo code already has a memory but it doesn't search across your vault. doesn't know what you worked on on a different project yesterday. And QMD fills this gap. And QMD is a logo search engine for your knowledge base. It serves as a retrieval layer where you can find anything in less than seconds. And here is what I'll show you in today's video. How to turn your vault into s searchable uh memory. How to load automatically context before every session. and how to index your knowledge base uh so that no conversation getting lost. All right, let's get started. That's our memory stack and what we have here is our obsidian vault. I am right now inside of Obsidian and here I have a bunch of files, bunch of folders, all of that are Martin files and we want to somehow be able to uh find and search for relevant information and the way we do it is through QMD and QMD is a CI search engine for your dogs uh from Toby that's a CEO of Shopify and it uses combination of SIM semantic search and keyword search and it delivers amazing results when you search across your world much better than grap in specific cases. So that's the tool which enables this and then we have a skill which is called recall which leverages this QMD tool and loads into the context the information which is relevant for us right now and then we can have access to this through cloud code or open claw from anywhere. Now the way I set up QMD for myself is for each of the obsidian vault folder I have a QMD collection and this is one to one mapping for me and then for each collection I can perform a focused uh search topic. If I want to look through my daily notes I can just go there and scan um and scan those daily notes. If I want to look through my sessions with a cloth code, I can do the same as well. And I'll show you how to embed your obsidian vault into QMG collections after this demo. Here is um example. We can go to Claude and talk to Claude and Claude knows how to use this CI tool uh QMD. We can run it ourselves to to get information. here all of my collections listed here and here we have files and the time since it's been last updated. Now I can go to cloud and tell um like perform a search um I want to perform a search u about my research uh about graphs can you find those one conversations and it's going to use u uh this um QMD command search across my notes and here are the relevant results where I was performing research about different knowledge graph approaches another Another example, I can search u I want to search about notebook lm and find relevant files uh and sessions about notebookm which I had in my vault. Now and this is a basic way to use QMD and it can quite fast get us up to speed to find information about relevant u topics which we want to recover into the memory into the session uh into our context right now and I can compare that with the standard way how you do it. I want to search uh all information about u notebookm which I had in my obsidian bold uh the sessions and uh the files and this is how you would typically go about it telling the clot okay go go wild and search my vault and it does that using this haiku model and this one is just using this brute force approach and and you can see that it takes It's already quite some time. It's been almost a minute whereas this search was almost instant. So, we're getting into much better results in terms of time. How fast can we search? And also the results are more meaningful and we are also saving much much in terms of tokens. It's been already uh almost 2 minutes and it's still searching, searching, searching and I'm interested in comparing the results which you will get. Okay, it's finally I think it's finishing that. It's been 2 minutes. Uh it's trying really hard. It's trying really really hard and I'm already bored. So, and typically during this time I would just go and uh scroll Twitter or or LinkedIn. So, and this becomes really a waste. So, I need to somehow like spend this time and focus on something else while waiting and that like distracts me. But that's one dis advantage of having fast search. So, you don't have to like go and do something else. You can really focus on one session on one context and work on one thing now. Okay. So, it's been 3 minutes. Wow. Um, okay. So, and we got this response. Um, damn 300 files. So, yeah. And here is the results. And I'm actually not so sure that's better than than we have here. So I I think here it's it's uh the results from QMD just from the standard search function of QMG is much better and they're almost instant and they're much more more context efficient. You don't have to use sub aents to do that and we are saving on tokens and they're much faster. Now that's one basic usage. Let me show you how can you embed different collections to QMD. So that's the commands which we have here. So there's a lot of stuff going on and there are different commands. Uh there's a standard one called search that's a full text um BM25 search and there is also vector vector search only. And this this one we'll explore the explore next. And for collections, we can have like those commands. We can at least remove the name. And let's try to create our collection. I want to create a new collection uh for my transcripts uh for the last 7 days using QMD. And I have those transcripts which um transcribe um everything I say and I save those into my vault. And here's example of the files. Okay, here's example of the files. It just uh transcriptions of me saying something. So, and from that this is very very valuable insight. We can try to embed it uh into a vector database and then ask like semantically meaningful questions in a way we couldn't actually capture through a standard keywords. All right, that's cool. We are here. Yeah. So go ahead and add to a new collection called transcripts. Okay. And here we're using the command collection add transcripts and we are adding the files uh from this folder. Okay. So we just added all of those files and we can search across our transcripts. M let's say yesterday I went to a meetup and I had some brain brain dump from this meetup and my thoughts and I want to ask a question about it like maybe some cool cool ideas I had during this meetup regarding the this discussion was about uh the browsers I I remember so can you search that now and here are the results I asked to not to expose any private information and here are like my ideas from my brain dump after the meetup and this is one of the ways you can use it but now you can push it even forward. What really excites me is semantic search and semantic search is something that uh which would enable surfacing and finding information which you couldn't find through a standard search by keywords and going beyond grap. And here are some cool cool cool ideas which we can try right now. Um let's say um I want to search across my daily nodes and find uh the days when I was happy and what was the reason for that and this is quite non-trivial query and clone is very very smart because right now it tries to adapt this query and uh searching for like you know happy grateful excited energy great day and find sematically relevant connections across my daily knowledge. or my transcripts. Here's example. Uh mood is good. Glad I was able to sleep at all. Not great sleep but functional. And there are some other other ways that come up. Yes. Yes. And here's the example. Um high energy happy days. Um where I finished the seminar and I finally was done with everything and I was and I was good. Um and here is um pattern analysis that my happiest day when I ship something and I had a good sleep recovery uh like sona or 9 hours of sleep and this is just example how you can try extract um semantically relevant information which you can't find through grab yeah I also want to find um like the points of frustration on our own or uncertainty from my transcripts or from my daily notes. Okay, we're just getting uh all of this um information like using keywords, frustrated, uncertain, stuck, confused, finding relevant relevant files. Okay, here are the patterns which we surfaced. Uh recognize tendency to seek quick fixes through coffee, overeating, sleep, social media when hitting roadblocks. H sounds familiar. Yeah. Um here's a session which I had about actually trying to unblock myself and here is the uncertainty uh when I was trying to find if u I'm doing the right thing to get those results. It was unclear for me what to do in that situation here. I I don't know what happened. It was day before my defense. Um what else do we have? Um, focus on most uncertain parts. Strategy working well. Uh-huh. And here's some concerning patterns. H. And here's a pattern that frustration comes from uncertainty about direction more than from the difficulty. H. Yeah. Okay. And here here is a real insight which I had but I actually forget about this right now that my best copings insight was um back then in October when I was writing my PhD thesis and I was about to give up uh and I need to like do it like day by day come in and write something. But what I realized back then is that I just need to see it through discomfort instead of escaping to quick fixes and I want to find this file actually. Um yeah, that's actually quite interesting. I didn't expect that it could surface this. That's so amazing that you can just explore that. Okay, so I had this like daily report back then. Um I had uh like you know this PhD work I like rewrite chapter 4 um what else we did and here's yeah and here's the exact citation which we found that's just amazing just amazing now it's been like a quick introduction into I don't know that's probably more than 90 seconds but that's just basics and then we can go into the actual memory on how to build something meaningful with that. So here is how to actually stop reexplaining all day long the new context to clot. Okay, so that's the one that's the one. Yeah, that's a call start problem. I think we should all face that we have a session we open a new terminal and then we start working working on something and we are good like cloud knows okay what are we working on it remembers what decisions we have made in um in this session it has a full conversation history it knows what to do next okay cool now so but we are hitting at some point the context limit and when we are getting to let's say 60% % here in terms of context. So then we need to compact or do a hand off to another agent to continue working on that and then we kind of need to like decide what do we do like we start a new session then like half of the decisions have been lost or even worse if you want to continue next day I I don't remember what was happening back then and there is I just open new terminal and then what's going on I need to somehow like find all this context like what was the projects um what is the decisions and I need to start from zero like all the time and you just like tell CL okay find all the information and it like goes for 5 minutes and this is what we've seen what happened that it's not efficient it takes so much time and spend so many tokens and the results are not that great because it has to read every file and it can't really negate the complexity of the work which we're doing in our vaults so there you go and that's the problem at the core problem which you're trying to solve here. Now let me explain how do we go about this. So we have we have this like recall skill and this recall skill enables us to scan our clock conversations or open clock conversation given a timeline from yesterday or from last week and it parses and like finds all our our conversations from this timeline and then we extract the session timeline. Okay. So that's cool. So let me um just try in a new session um just run this uh sorry call that's the command and we can have a yesterday today last week this week or topic or graph. And this is I'm going to explain later. Let's say just yesterday. Let's reconstruct yesterday. Um yes I want to reconstruct yesterday uh a precise timeline what I was doing matching the conversations and the files create. Cool. It loads the skill right now. Okay. It loads this workflow. Within this recall skill we have this recall workflow and runs this Python script. It references all of our conversations. And here they are by time by the number of messages. Uh the first message. Yes. 39 sessions and how do you not to lose mind in all of this like uh craziness like indeed busy day and now I can go back at any point in time to previous time and understand what I was doing back then. We are using haiku right now to like understand uh what was happening in that session and it's going to go back to us with the results and this is just one way to interact with this uh skill with this memory system u that's a temporal path that I want to like know what I was doing back then um and what was it about okay and that's that's very very cool and we have a fully full timeline reconstruction what I was doing back back then like time by time and just the full timeline and I want you to get me the session ids so I can also easily resume those. Now this is one of the values that you can have clear understanding what you were doing yesterday and go back to any of those conversations. Now cl just going to uh get those session ids and I can resume actually information back. Okay. So let's try this session. So that's the session ID and then if I open a new new terminal instance I can go back to uh cloud and tell like resume and that's the session ID which I can use here. I think I need to have a full session ID here to make it work properly. Right now it doesn't recognize it as a command. Okay, here we got a full sessions ID. Um I can just tell okay using this command to to resume and I'm back to to where I was during this conversation. That was example of a like temporal path where we recall what was happening at some time in the past. Now and this part which really makes me excited is using this um topic path where we use the actual uh QMD and we use this BM25 search and it's been performing very very well for me. So let's try that. Let's try that. Just start new conversation. Yeah. So let let's see how how it working. Um we're going to use this recall command and uh we're going to recall something. Um by topic um let's say graph graph rug. Uh I'm really interested in in graphs and I'm like have a bunch of stuff in my world about graphs and I want to continue working on this. Oh okay. So it actually decided to use uh like search for QMD video because I have this context sharing with code. It can see what's been selected. Um and okay, so we're going to go like through this QMD video. So what do you have about that? Nice. And we are back. We are back. So I've been working on that for last two days. And here is a her current state. So we have all of this. We have uh like all different files each cloud can surface in less than a minute. We have um dashboard, we have a production plan and here is a to-do list and um now once you have this into your context so we can ask what is the next high highest leverage action. Okay. And you can try it with your projects, whatever you do in your obsidian is it like life, business, work, literally anything. So you can clearly reconstruct um any information in efficient way in less than a minute using this uh topic recall command. And this is all like single skill. And there's also graph way to do this. Um so let's try using graph and this is the one which I showed. Um actually that's a graph for today and here is a graph which we have and we have like different uh sessions and each blob here is a session. So you can see it here those are different sessions and they have um color code by by the time of creation. If the session is older, it gets dimmer. And if it's a recent one, it's um it's highlighted in purple. And then we have a different files which are created here. Um let's say this one. So we have like this um QMD video where I was planning for that. And we have um here we have this uh file called slides which I'm working on right now. So that's the file and you can see that it's it's been I've been working on that in in a couple few sessions. So you can see the connections here and here is a command which I tried just now like recall command and that's only for today. Now we can go a bit deeper. We can try to explore. Okay. So what we've been doing in the last week okay so let's try to do like something more interesting. Let's try last week. All right, the graph is loading and right now it's much more rich and complex. And so that's very exciting. I really love this. It's kind of fun. So what is this? Um Uhhuh. And this one is I was running this blind spot analysis where I want to have understanding on what are the blind spots that I have in my uh life or my strategy. And here I have a skill for that. And we created um and it has a different workflows um analyze like retrospective analyze and report and here is the plan which I created. Uh I can go back to this. I can copy this path and tell cloud open this one. Okay. And right now it opened it for me. So that's kind of all of the information. So we can also use graph view to uh clearly surface what's going on here and see connections between different sessions. And this one is is is kind of fun that I was exploring um a lunch places and I just tell okay I want to have a great lunch and uh we actually analyze like different different places to go and I store those as activities I might want to try and if I want to get back to this I can just copy those path and um and continue from there and copy and paste it into cloud code um and then we can like tell to read like these files and let's understand what's happening that's interaction with graph which is quite insightful for me and I really love to see collections um and this rich visualization and that's been a three ways to interact and recall what is going on that's been temporal path that's been path by topic if I want to know okay I had this thing which I was doing and I want to know I already can stack the context about it or the graph view. So whatever you prefer if you're a visual person maybe graph is the way to go for you now and this whole memory system is open source so the link in the description and also I run the lab where we explore this build like workflows together that's a six weeks program that's a very very fun and we had already first cohort and I learned a lot myself working with 20 people so and That's um six weeks program where we explore integration of clo code and obsidian and this intersection of what's possible. So and what we have here we have um like lab Vicki we have this lab Viki where we have uh all information and you can interact with it from your cloud code or obsidian. We have uh sessions you have uh masterminds and workshops on a weekly basis. you would quickly realize that all of the problems which we have they're all similar that oh like we have the information overload oh cloud creates a mess uh in our world or um I'm losing control in terms of what's happening or I'm spending more time on actually tuning my obsidian than doing real work and you are not alone and like this is the problems which we go and explore during the masterminds when you get a real feed back from the group. And I think this is the main transformation here that your nodes stop being passive. They stop being trapped in in your obsidian world. They actually start doing things and all of your notes is a useful context about yourself that you can leverage uh to achieve some goals in your life. Yes. And this is for you. If uh you've tried notion ROM, Apple not like all of these systems and you just have all your contacts scattered, you would also find it useful if you have like thousand of nodes and you just like don't know what what's going on there like what do I have even I I don't know and and this problem with every conversation with AI starts from from zero. uh how to build and make your world uh native for AI for the agents and how to capture your thoughts, how to make them organized. Yeah, if you are interested that are like some of the tools you should going to go through um obsidian like cursor clo skills much more and I think the most important thing is tools change tools change but your context stays even it's going to year from now or 10 years your context stays so month from now there are going to be new model then so what if you have your context you can make it work in um in any way in any situation either it's cloth code codex gemini cli anything and we meet bi-weekly so we starting on March 17 uh we meet bi-weekly we have a workshop and have us and mastermind and that's a program you can look through and people are quite excited about it so that's been our first cohort and I see very very positive feedback from people all right that's been the lab um and let's continue let's continue with more excited stuff. So the actual difference what what's actually the point like oh okay cloth can do grap by default we also have this BM25 uh approach and we also have like this vector search so let's try to understand um let's try to understand what the is happening here let's let's go and and try uh to to benchmark this okay so I want to benchmark different approaches is um so I want you to run those queries and present to me results in a clear way so I can compare the benefits and the performance of each each of them. Okay, good. Let's make cloud work. We'll compare those three approaches. So right now we are using the GP that's the one that's the native tool which clo has and uses by default. We also have a BM25 that's Q& search. We have uh semantic only. That's QMD varch. We can search for like cool couldn't sleep. And this one is actually um I think the hybrid like this one hybrid it's it's it's supposed to be the best but it takes right now 21 seconds. So that's a bit problematic. I think the QMG research took 2 seconds. That's fine. We are good. And we are getting back after 35 seconds. Cool. Cool, cool, cool. Um, and here are the benchmark results. I want to also know like exact like row results which you're getting from the queries and please perform the analysis on this. So yeah, so this table is good. So let's look through it. Uh, we have this grap approach like query sleep. It has 200 files and there is a wall of noise um like research workshops workshops templates. Then there is also BM25 which has a more relevant information and we also have a semantic search. Okay, sorry just got got a bit off track. It has a relevant uh more relevant information about sleep experiments diagnostic and goals regarding the sleep. Then there's a semantic search finds meaning aha couldn't sleep. Nice. And then there there's a best ranking sleep interrupted at 3:00 a.m. Okay, nice. I want to look at the actual data. That's the most interesting part. So here are the parts and let me see if the code did a bit better. Cool. And here's the exact analysis. Uh so here we have uh grap where we search like across we found 200 files and uh it finds all the files which contain staying sleep. It it has like all all over the place all over the place. It even finds this like sleep uh sleep system call that's completely unrelevant. Now if you try to do a QMD approach um what we have here that's actually the response. So what we found is um a reflection about sleep quality. We found experiment with tracking sleep fragmentation patterns. Uh sleep interrupt at 3:00 a.m. Um that's much better. Nice. I load that. Then there's a vector search when we search for couldn't sleep. And then we found um this much um sleep pattern. This one I don't get really. And this one I don't really get. Uh uh this one is because it directly about uh couldn't fall asleep at 3:00 a.m. Uhhuh. And there was a goal about bedtime discipline. Uh-huh. So it kind of goes beyond the keywords and explores the meaning. That's the point of that. And then there is a hybrid approach which took us 35 seconds to run and it ranks this note as the highest one. And this is um another one with a higher relevance. Couldn't fall back asleep. Uhhuh. Nice. So here is a comparison of each of these. So I would say grab from the worst. uh it introduces a lot of noise. So, BM25 is fast but it doesn't find the meaning but the results are quite good. Then there's a sematic search which finds meaning and then there's a hybrid approach uh which like actually finds the best results and does a comparison. uh showing how to go beyond graph and and find find relevant information even if you don't use specific keywords. That's that's the unlock. Um here are some other cool ideas. You can also embed different collections. So I have this YouTube CLI skill. Um just find videos uh about u investment. I want to learn about investment. I don't know for some reason I want to learn about investment and it's going to get those videos for me. Okay, investing for beginners here all of the all of the videos and then you can tell okay so can you get transcript for one of these videos from me please and then embed it into a new collection so you can actually like get a bunch of videos about the topic which you want to learn and then embed them into QMD and then ask questions about it. Now we are creating a new collection. Yeah, the collection should be called different. It's not transcripts. It's about learning for investment. Let's direct cloud a bit. Um, okay. So, we are creating this folder. Okay, cool. We got the summary. We got the summary for that video and we're right now adding it to a collection and we are embedding it um to enable sematic search. Okay, so it's embedding also the previous chunks I guess like all the other documents which I had, but you get the point. So you can just download bunch of materials, bunch of articles and ask semantically meaningful questions like it would be for notebook. And if you're using notebookm so you might also find this v this u video useful on how to connect cloud code to notebook lm and get the answers with exact citations to a passages to actual transcripts um passages and articles paragraphs and how to create this like knowledge graph for all of your notebook topics sources and citations they all become connected and the cool thing you can also do audio or reviews uh podcast which you can save and listen in your obsidian and there are many many possibilities okay so let's get back so it seemed that we actually embedded this video script and we can query and get the information about or we add we asked about index fund and here is a index fund make sense okay so you can go beyond just your vault you pull external sources. Nice, nice, nice. Oh, and this one I think is also cool ideas. Uh how you can uh use it um to let's say find the ideas that I have never acted on. Uh let's see what we got here. I'm really having fun with this. Uh so it's kind of new direction, new way to um to interact with cloth and in the memory with all your context. Um okay so what we got here is um oh CL can you summarize what's going on here it's a bit hard to parse the actual row results and having clo to help us to synthesize insights from from this data is is very very useful okay uh cool on October n 19th uh I wanted to build a PhD writing dashboard but never did it okay what else a undraw applications and never follow through. Sounds like me. Uhhuh. I had an idea to record a screen recording about full obsidian workflow but never committed. Uh yeah, just there's a lot of fun. You can try different queries, different searches and find information in a new way. Explore what's happening with all of my notes and it's happening all locally. all of these embeddings they leave on your computer. All right. And to conclude the section, so how how do you start? So I would start with BM25. It's it's actually like very very fast and it gets you 80% there. And if you want to add semonic meaning, I would recommend to do it for your transcripts or for your brain dumps where you can surface those u connections uh because you don't have like um specific terms there. You can just like oh free floating you have like your brain dump and you just throw stuff on the wall and uh you can find the relevant pieces and the connected dots and if you really really want to push the performance forward you can try to use both but it going to cost you half a minute. All right and moving forward. So moving forward that I touched upon that like this cloth code it says all your conversations as um files on your computer and I just had like the 700 sessions in last 3 weeks and each one of them has decisions questions okay here all of them here's all all of the sessions and here are the statistics here are the files which I created here are the skills oh here yeah this is the files which I created and here is the example of the session. So I open this one open claw and I used open claw skill here to manage my open claw instance and uh it has session ID so I can always go back to it. It has a date and uh it has the skills which I used and this is the link to my open close skill which uh controls my open call and helps me to manage it. For the artifacts, it's the files which I modified or created and have a full conversation history saved right here. And those conversations I embed into QMD and I can ask anything um about those. And this is um they're stored in this um collections called sessions. Now that's cool. So we have all of these. we can keep track of our conversations in our world and we can search across them so that I partially um showed that I won't repeat myself here and you can also do like sematic search across your sessions across your interactions with cloud and find maybe frustrations with your workflows where you couldn't capture the exact words and that's the way it works and that's um part of memory system which I'm sharing uh and open open sourcing so we have those convers sessions are stored in a doc folder and then we have this skill which I run only once and it exports all of my cloud conversations into my obsidian as a markdown files and they leave there so I can change the folder doesn't matter and at the end of the each session when I close my terminal I have a hook which exports and embeds those sessions into QMD. So I don't have to reindex it all the time. And then I can use recall command to load this context and it's always fresh. So the index always always fresh. So I can get back to anything I had even from today. That's kind of the point and that's a pipeline for the sessions extraction if you're interested. So I think the key key here is that we parse a clear markdown the actual signal the actual user messages because row files they have like tool users the system prompts the roles we just want to have a clear markdown and then we embed this into our QMD index and then we search across this now that's cool yeah and that's kind of the whole stack um not the whole memory stack we have our obsidian we have We can run this recall skill to reconstruct information and we can access it from anywhere. Yeah. So, let me connect um to my computer so I can share the screen. Okay, that's cool. Okay, I just connect to it. Um here is open claw ready and let's wait. Okay, cool. So, that's how how how I go about stuff. That's my open claw. So okay now I'm just using my phone. Uh here I tried the reconstruction from from yesterday and I can ask so what kind of skills do you have? What are the skills available? And the key here is that it uses all the same skills which cloth hood has. So my obsidian bolt is shared with open claw as well. Now it's it goes and thinks about stuff right now. So, it's going to respond very very quickly in a minute. Well, there's a lot of stuff. So, that's kind of the idea that I have uh all of the those skills in my obsidian. I have this agent skill base um which tracks all of my skills and they're available also from open claw and how this like the most like you see like that that's that's the one uh most powerful for context. Yeah, this recall graph it's also available here. So that's uh the pipeline. Yeah, the whole memory stack and that's um open source. You can download it in the description. Yeah, and if you enjoy the content, you can support me by joining the lab where we explore CL code and obsidian together is a very very powerful combination and I hope to see you there. Uh, if you enjoy the content, subscribe. And I'm shipping one of these videos every week. And I put a lot of effort to making sure that information you're getting is high quality, relevant, and useful. and I'll see you in the next
+
+
+
+
+
+Thought for 46s
+My compact understanding of the whole video
+The demo is basically a “memory stack” that turns your Obsidian vault into Claude Code’s searchable long-term memory.
+
+Obsidian = the source of truth (Markdown notes, daily logs, transcripts, project docs, etc.).
+
+Claude Code = working memory (it remembers within a session, until context limits / new terminal / next day).
+
+QMD = retrieval layer (a fast local search/index over your vault; supports keyword/BM25, vector/semantic, and hybrid).
+
+“Recall” skill = the glue (a command Claude can run that pulls the right notes + past Claude sessions into the current context).
+
+The key problem being solved: Claude Code normally doesn’t “remember” across projects/days because it doesn’t automatically search and load your vault. Without retrieval, you end up doing slow brute-force “go search everything,” burning time/tokens and getting noisy results.
+
+So the workflow is:
+
+Index your vault (often split into “collections” like daily notes, Claude sessions, transcripts, etc.).
+
+Export Claude Code conversations to clean Markdown notes (so they become part of the same knowledge base).
+
+Keep the index fresh automatically (a hook runs when you end a session: export → reindex).
+
+When you start working, use Recall to instantly load relevant context by:
+
+time (“yesterday”, “last week”),
+
+topic (BM25/semantic search),
+
+or graph (visual map of sessions ↔ files).
+
+Result: you stop re-explaining yourself, and your notes stop being passive storage—they become an active, queryable memory.
+
+Specific benefits of Obsidian + Claude Code (as demoed)
+1) Fast, high-signal “memory” across days/projects
+Instead of Claude scanning hundreds of files every time, retrieval returns the top relevant notes in seconds, which Claude can then use immediately.
+
+Benefits:
+
+Dramatically less “cold start” friction when resuming work.
+
+Less context window waste (Claude reads only the best snippets).
+
+Much cheaper in tokens and faster than brute-force reading.
+
+2) Your Claude sessions become first-class knowledge
+Each Claude Code conversation is saved as a Markdown note that also links to every file it touched. That creates a permanent audit trail:
+
+What decisions did we make?
+
+What files changed?
+
+What was the rationale?
+
+Then those sessions are indexed too, so you can search your past thinking, not just your notes.
+
+3) Better search than grep for “human questions”
+The demo compares approaches:
+
+grep / brute force: noisy and slow; matches literal strings across tons of files.
+
+BM25 keyword search: fast and usually “good enough” for structured notes.
+
+vector semantic search: finds meaning even when keywords differ (great for messy brain dumps / transcripts).
+
+hybrid: often best ranking, sometimes slower.
+
+Practical takeaway (from the demo): start with BM25, add semantic/hybrid where fuzzier meaning matters.
+
+4) New kinds of reflection/analysis become possible
+Once transcripts + daily notes are indexed, you can ask things like:
+
+“Which days was I happiest and why?”
+
+“Where am I consistently frustrated or uncertain?”
+
+“What ideas did I record but never acted on?”
+
+That’s not “Obsidian search”—that’s Obsidian as a queryable dataset.
+
+5) Pull external sources into the same memory
+They show downloading YouTube transcripts, saving them into the vault, indexing them, then querying them like your own notes.
+
+So your “memory” can include:
+
+videos,
+
+articles,
+
+podcasts/transcripts,
+
+research notes,
+
+and Claude sessions.
+
+All searchable the same way.
+
+6) Optional graph navigation for context
+The graph view isn’t just “cool visuals”—it gives you:
+
+session blobs connected to files
+
+“what got touched together?”
+
+“which sessions contributed to this file?”
+
+recency cues (older dimmer, newer highlighted)
+
+This is a very different interaction mode than text search—more like “debugging your week.”
+
+The main interaction patterns (how you’d actually use this)
+Pattern A — “Recall by time” (temporal restart)
+Use when: you want to reconstruct what you were doing yesterday/last week.
+
+Flow:
+
+recall yesterday
+
+It outputs a timeline + summaries + session IDs.
+
+You resume <session-id> to jump back into the exact work thread.
+
+Benefit: zero mental archaeology.
+
+Pattern B — “Recall by topic” (project reboot)
+Use when: you remember what you’re working on, not when.
+
+Flow:
+
+recall topic: graph rag (or whatever)
+
+It queries vault + session logs, returns the best notes/files/summaries.
+
+Claude starts with a ready-to-go context bundle.
+
+You ask: “what’s the next highest-leverage action?”
+
+Benefit: instant “project state restoration.”
+
+Pattern C — “Search-first then synthesize”
+Use when: you want evidence + citations (from your notes) before decisions.
+
+Flow:
+
+“Search my transcripts for browser meetup ideas”
+
+It returns top hits (fast).
+
+Then: “Synthesize the main themes and propose next steps.”
+
+Benefit: Claude becomes an analyst on top of your personal corpus.
+
+Pattern D — “Graph-first navigation”
+Use when: you’re visual and want to explore connections.
+
+Flow:
+
+open graph for “today” / “last week”
+
+click a cluster → copy a file path
+
+paste into Claude Code → “open/read this and summarize decisions + next steps”
+
+Benefit: you browse your work like a map.
+
+Pattern E — “Automatic indexing + automatic preload”
+Use when: you want this to feel invisible.
+
+Flow:
+
+On session end: export chat → markdown → index collection
+
+On session start: auto-run recall for current project folder / recent topic
+
+Benefit: memory stays fresh without manual upkeep.
+
+If you adopt just the “80% version”
+Keep your vault in clean folders (projects / daily / sessions / transcripts).
+
+Index with BM25 first (fast, solid defaults).
+
+Export Claude sessions to Markdown and index them.
+
+Add semantic search only for transcripts/brain dumps where keywords are weak.
+
+Use Recall-by-topic as your default “start work” command.
+
+If you want, tell me what your vault looks like today (folder structure + how you run Claude Code), and I’ll sketch a simple “minimum viable memory stack” that matches your setup.
+
+
+now also do it again for this video 
+
+
+
+https://www.youtube.com/watch?v=iis9v_P_1eY
+
+Transcript of Most People Use Claude Code Skills Wrong — Here's What Works!
+
+So, okay, most people using clawed code skills are doing it wrong. And I don't mean kind of wrong. I mean that I mean they're basically just writing a second claude.md and calling it a skill. And yeah, I was doing the same thing for a while until I figured out what a skill is actually supposed to be. Just real quick, I'm Daniel. I've been deep in the iOS world for uh over eight years now. started out freelancing, you know, bouncing between client projects, shipping other people's ideas for a long time. And then after Dubdub25, I just made the call, went fully solo. No more clients, no more back and forth. Since then, I've crafted uh over 15 of my own apps, all Swift UI, all built in public. And honestly, all my energy right now goes into making this solo studio into something real, not turnurning out quick MVPs or AI slop. And yeah, I'm sharing every bit of that on Crafters Lab. It's over at crafterslab.dev. And it's, look, it's not some AI clone factory. It's my actual home base built for solo devs who want to use AI like a real teammate, not just a vending machine. If you care about what you ship, if you want to build with intention and actually level up, yeah, you'd feel right at home. And hey, if you're still hanging on with Patreon, huge thanks for riding with me. But heads up, everything's moved over to crafterslab.dev. That's where the crew is now. Come build with us. Okay, so here's where this whole thing started for me. And honestly, I think if you've been using Claude code for any real amount of time, you've felt this, right? You open a fresh session, you ask it to build something, a tab bar, a mini player, a custom scroll effect, whatever, and it gives you something. It compiles, it runs. Cool. But then next week, different project, you ask for the same exact thing and it gives you a completely different version, different architecture, different naming, different patterns, and now you've got two code bases doing the same thing in two totally different ways. And you're just sitting there like, come on. And honestly, that drove me nuts because as a solo dev, uh, consistency is everything, right? You don't have a team enforcing patterns. You don't have a style guide being reviewed in PRs. It's just you. And if your AI agent is giving you a different answer every single time, I mean, you're basically building a new codebase from scratch on every project. You know what I mean? Like all that institutional knowledge you built up gone. Every session starts from zero. It's kind of wild when you think about it. And yeah, I know what you're thinking. Just put it in your claw.md. And sure, I tried that. I had this massive MD file with all my preferences, my patterns, my naming conventions. But here's the thing. Uh, Claude MD is great for general rules, coding style, folder structure, commit message format, that kind of stuff. But when you need Claude to build a specific complex UI component the exact same way every time uh with the right architecture, the right animation system, the right file structure, uh a paragraph of instructions in claude.md just doesn't cut it. The agent still interprets it differently every session. It fills in the gaps with whatever it feels like that day, and you're back to square one again. So, I started thinking, okay, what if I could teach Claude how to build something once, like really teach it, and then just call that knowledge back whenever I need it? Not a prompt, not a wall of text, something more structured, something that actually sticks. All right. So, and that brings me to the part that honestly I wish someone had explained to me way earlier, skills. And I want to be real about what a skill actually is because I've seen a bunch of stuff floating around online, people sharing their skills. And not going to lie, a lot of them are just giant walls of text, like pages and pages of instructions crammed into a single file. And I mean, that's basically a claw.md with extra steps, right? If you're dumping a thousand lines of written instructions into a skill, you haven't really solved the problem. You've just moved the problem, you know. So, here's how I think about it. My Claude code skills are built to be collaborative. And I mean that in a very specific way. When Claude loads one of my skills, the first thing it does is ask you questions. It doesn't just start generating code. It stops. It goes, "Okay, how many tabs do you need? Do you want a floating button? What should the floating button do? And based on your answers, it customizes everything. That's the whole point. The skill is interactive. It's a conversation, not a monologue. And honestly, that distinction matters way more than people think. And inside the skill itself, and this is the part I think matters most, it's structured more like a tutorial for the AI, not a wall of instructions. Each skill has clear steps. Detect the project structure, ask configuration questions, generate the files using these specific templates. And those templates, they're actual Swift files. Real code, not pseudo code, not descriptions of code, actual working.Sswift files that Claude reads, understands, and customizes based on your answers. No guessing, no vibes. Just here's exactly how to build this thing. So when I say skill, what I really mean is I've taken a complex UI component, broken it down into a repeatable, teachable format and packaged it so Claude can deliver that same quality bar every single time. The architecture decisions are baked in. The animation curves are baked in. The file structure, the naming, uh the integration pattern, and all of it Claude isn't guessing anymore. It's following a blueprint that I already validated on real shipped apps. And yeah, that compounds. That's the whole point. And you know, I think that's the key difference. The skills I see out there that are just text, uh, look, that stuff should live in your claw.md in my opinion. If it's general guidance, general patterns, put it in the MD file. But a skill should be specific. It should be a tutorial with code snippets and file examples that the AI can actually work with, not vibes, not suggestions, concrete, structured, repeatable, and honestly, once you get that distinction, everything changes. So, okay, let me just show you what this actually looks like because talking about it is one thing, right? But watching Claude actually use skills in real time, that's where it clicks for real. I'm going to fire up Claude Code and give it one prompt. And the prompt is basically, I need a custom glass tab bar and an expandable mini player on top of it for a meditation app. Use the slashcustom glass tabber skill and the slashexpandable mini player skill. And here's the important part. Like I told it to look clearly at the skills before planning because that's the whole point, right? I want Claude to actually read the tutorials, understand the architecture, and then come to me with questions before it writes a single line of code, not just wing it. And that's exactly what happens. You'll see it on screen. Claude loads both skills, spins up sub agents to explore all the template files, reads every single Swift file in both skill packages, and then it stops. It comes back and asks me, "What tabs do you need? Do you want a floating button? What should tapping the floating button do?" And I answer, "Home Explorer profile. Yes, dynamic icons per tab. Present a full screen cover. Done. That's it. That's the conversation." And then it builds a plan, like a real detailed plan. It maps out every file it's going to create, where each one goes, which templates it's pulling from, what it's customizing for the meditation context, and how the two skills integrate together. And here's the thing, um, it even catches the tricky stuff like the mini player living in a separate overlay window and needing manual bottom padding to sit correctly above the custom tab bar. that kind of integration detail. That's exactly what you'd miss if you were just prompting from scratch. No joke. I approve the plan and it starts building all files in parallel. And not going to lie, watching it just execute, it's kind of satisfying. It creates the folder structure, drops in the tab bar components, the blur fade modifier, the glass floating button, the overlay system, the pan gesture handler, the expandable player, all customized for a meditation app. It even catches a typo in one of the templates and fixes it on the fly. Like, yeah. Okay. And just like that, I have a fully working custom tab bar with liquid glass effects, a floating action button that changes icons per tab, and an expandable mini player sitting right on top and all wired up, all animated, all compiling from one prompt. And honestly, every single Claude code skill I build works this way. Same structure, same collaborative flow, same quality bar. You teach Claude once and it delivers that same level every time across every project, every session. Your job is just making it yours. Restyle the tab bar, swap the icons, build out the expanded player with whatever your app needs. The foundation is solid. The craft is already baked in. So yeah, if you're still here, honestly, you're a legend. And look, the core idea is simple, right? Stop reexplaining yourself uh to the AI every session. Build a skill once, build it right, and let it compound across every project you touch. That's how you actually scale as a solo dev without losing quality, without losing consistency, without losing your mind reprompting the same thing for the fifth time this month. I mean, come on. And you know, if you want to go deeper, like actually see the skills, grab them, use them in your own projects, come check out crafterslab.dev. It's not some tutorial dump. It's not an AI content mill. It's honestly just my home base. I built it for solo devs who treat AI like a real teammate and actually care about what they ship. And yeah, it's packed. Inside you get full walkthroughs, actual short video tutorials with downloadable zips you can drop right into your project. Every Claude Code skill I build gets published there with a walk through an article and the full skill package ready to go. Members riff in the comments, ask follow-ups, share what they built with the skills. It's not a one-way street. It's more like a back and forth. You know what I mean? But the real core, the notion team spaces, my live playbook. Members get a front row seat to my command center, every app I'm building, all the MD files I'm actually using on real projects, the prompt library, the docs I'm writing as I ship, and all the automations I've got running behind the scenes. You see the whole process, messy drafts and all. No filter. And then there's Swift Brain, a curated Swift and Swift UI library that's not some autogenerated pile of filler. Real current stuff. Deep dive keynotes, private talks I've curated over the years. The kind of material that's not sitting in any public training data. This is what I actually use to fine-tune how I work with Claude code, with cursor, all of it. And I'm always experimenting, always posting what sticks. And yeah, there's Ops Lab, too. That's where I build and share all my Notion AI agent instructions, Notion templates, workflows, and automations, all wired up and ready for you to copy, tear apart, and rebuild your own way. The whole point is keeping the indie stack connected. So, building solo doesn't mean building in a silo. So, yeah, if you want to get in while the crew is still small and hands-on, now is kind of the moment. It feels way more like a behind thecenes dev lounge than some giant faceless forum. Would genuinely love to see you in there. Swap some ideas, maybe even build something wild together. Keep crafting, keep teaching your tools, and don't settle for whatever the agent gives you by default. Peace.
+
+Thought for 33s
+My compact understanding of this video
+The video’s main point is: most “Claude Code skills” people share aren’t really skills — they’re just giant instruction dumps (basically a second claude.md). That doesn’t solve the real problem: Claude still improvises and you still get inconsistent architectures and patterns across projects/sessions.
+
+What actually works (per the demo) is treating a skill like:
+
+an interactive, repeatable build system for one specific thing (e.g., a custom tab bar, an expandable mini player),
+
+written like a tutorial for the AI (clear steps + checkpoints),
+
+backed by real code templates (actual Swift files, not descriptions),
+
+that asks you configuration questions first, then generates a plan, then builds.
+
+So instead of “re-explaining” how you like things every time, you teach it once, validate it in shipped apps, and then the skill becomes a blueprint Claude can reliably re-apply. That’s where the compounding comes from.
+
+What benefits “skills done right” give you (as shown here)
+1) Consistency across projects (the big one)
+You stop getting “two different implementations of the same UI component” across apps.
+
+Same architecture decisions
+
+Same naming and file layout
+
+Same animation curves / integration patterns
+Because the skill isn’t guessing — it’s following a proven template.
+
+2) Skills handle specific, complex builds better than claude.md
+The creator’s framing is:
+
+claude.md = global rules (style, conventions, folder structure, commit style, etc.)
+
+Skills = specific, high-complexity components that must be reproduced reliably
+
+This addresses the “Claude interprets the same paragraph differently every session” problem.
+
+3) You get an interactive flow instead of a monologue
+A good skill pauses and asks questions first (tabs? floating button? what action? icons dynamic? etc.). That makes the output fit your app while staying on the same blueprint.
+
+4) Less “vibes-based” code generation
+By shipping templates as actual Swift files, you eliminate ambiguity:
+
+No “pseudo-code interpretation”
+
+No missing architectural glue
+
+No reinventing patterns each time
+
+5) Better multi-component integration
+The demo shows stacking two skills (tab bar + mini player) and still catching tricky integration details (overlay window + bottom padding alignment). This is the kind of thing that often breaks when you prompt from scratch.
+
+6) Faster execution with less mental overhead
+Once the skill exists, your work becomes:
+
+answer 3–6 questions,
+
+approve a plan,
+
+let Claude generate everything in parallel,
+
+then you only customize “app-specific” pieces.
+
+The main interaction patterns (how you’d use skills like this)
+Pattern A — “Call skills explicitly in the prompt”
+You do something like:
+
+“Build X using /customGlassTabBar and /expandableMiniPlayer”
+
+Add: “Read the skills before planning.”
+
+Why this matters: it forces Claude to treat skills as source-of-truth tutorials, not optional suggestions.
+
+Pattern B — “Skill loads → reads templates → asks config questions”
+A properly designed skill doesn’t start coding immediately. It does:
+
+Inspect project structure (SwiftUI app? existing navigation? folder conventions?)
+
+Ask a short set of configuration questions
+
+Confirm integration constraints (e.g., overlays, safe area, padding, gesture conflicts)
+
+You respond with decisions, and only then it proceeds.
+
+Pattern C — “Plan-first with a concrete file map”
+Claude returns a plan like:
+
+files it will create
+
+where they go
+
+which templates it will pull from
+
+what it will customize (naming, icons, behavior, app-specific strings)
+
+You approve, then it generates.
+
+Pattern D — “Template-driven generation (real code)”
+Instead of “write a tab bar,” the skill says effectively:
+
+copy these Swift templates
+
+replace certain placeholders
+
+wire them up in these integration points
+
+apply these modifiers/animations
+
+This is the mechanism that produces repeatable quality.
+
+Pattern E — “Composable skills”
+You can combine skills (tab bar + mini player + gestures + overlays), because each one is packaged with:
+
+its templates
+
+its integration expectations
+
+its configuration questions
+
+That’s how you scale a “solo dev style guide” into a reusable system.
+
+The “rule of thumb” the video argues for
+If it’s general guidance, it belongs in claude.md.
+
+If it’s a specific build you want reproduced the same way every time, it belongs in a skill — and it should include:
+
+steps,
+
+questions,
+
+and real code templates.
+
+If you tell me what you build most often (SwiftUI components? networking layer? app architecture? testing harness? CI?), I can suggest 3–5 high-leverage skills to create first, and what the “interactive questions + template set” would look like for each.
+
+
+These are a couple different videos about CrowdCoder, but I'm realizing that, let's call it CC instead, it's easier. But basically, it's really valuable to have good expertise on CC right now because teams and companies want to be using, leveraging CC as best they can to do AI-powered software development or AI-assisted software development more efficiently and better within teams and across entire companies. And then also, there's just another thing, which is just that CC isn't even just for software development, it's really for anything because it's basically like the best kind of way and the best harness. It's the best environment for an agent to live in, and then it's therefore like the best way for a human to leverage an agent, not just for coding, but in their jobs because it potentially can build tools for people in their jobs, even if they're not doing software development, even if they're like a lawyer or an analyst or something else. And so I think what's super high value is thinking about all those non-coding jobs, like for the non-technical people, and how could they, maybe it's just teaching them how to use Crowd or how to use CC, But also just um They would potentially go further and like actually, it could be like, work with the team on actually building them with the tools that GPT would use to do their job faster as well. Right? Like a very hands-on kind of consulting or like coaching, and basically like onboarding to using AI agents in their job, you know? Um, tell me what you think about this, give me a breakdown of what I've said in a pretty organized, clear way, and maybe throw out a few ideas for how I could actually start doing this, what the business model would be like, um, different options for what the business model would be like, which one you think is best and why, and also like what my first steps would be. I think one step would just be to post on LinkedIn about this kind of stuff and potentially even, uh, I don't know, on YouTube or Instagram or something, but I don't know, I'm hesitant to do that, honestly. But like, then I'm pretty comfortable to do that.
+
+Thought for 1m 1s
+A quick note on naming: “CrowdCoder” is also the name of an Australian clinical-coding platform (healthcare). 
+
+But from your context (AI-powered software development + “best harness for an agent”), I’m going to assume CC = Claude Code (Anthropic’s agentic coding tool). 
+
+Clean breakdown of what you’re saying
+You’re making three connected claims:
+
+CC expertise is becoming scarce + valuable
+
+Companies want AI-assisted development, but “installing a tool” isn’t the hard part.
+
+The hard part is operationalizing it: workflows, guardrails, repo conventions, skill libraries, memory/context strategy, measurement, and rollout.
+
+CC is more than “coding faster”
+
+It’s an “agent environment” that can read/edit files, run commands, and integrate with dev tooling—so it can execute real work, not just suggest code. 
+
+That makes it a general-purpose “agent harness,” not just a code-complete box.
+
+The biggest untapped ROI might be outside engineering
+
+Non-technical roles (legal, analysts, ops) don’t necessarily need to “use CC directly.”
+
+Instead, you (or an internal dev/automation team) can use CC to build tools + automations + internal copilots that make those roles dramatically faster.
+
+That naturally leads to a service angle: enable teams + build the first wave of “agent-assisted workflows” with them, then leave behind a system they can sustain.
+
+What I think is true / important about this thesis
+Where you’re exactly right
+Adoption is the bottleneck, not model capability. Most orgs can’t translate “LLM is powerful” into repeatable team habits.
+
+The “value” isn’t prompts. It’s systems: standards, skills-as-blueprints, retrieval/memory, and governance.
+
+The wedge that sells best
+Selling “AI for lawyers” is emotionally appealing but harder to prove quickly.
+
+Selling engineering enablement is easiest because:
+
+pain is obvious (cycle time, consistency, PR load),
+
+data is measurable,
+
+budgets exist,
+
+and it creates the internal capability to build tools for other departments.
+
+So the best path is often: Start in engineering → expand to other functions by building internal tools for them.
+
+Concrete ways you could start doing this (offers people actually buy)
+Offer 1: “CC Adoption Sprint” (productized consulting)
+1–2 weeks, fixed scope, fixed price. Deliverables like:
+
+repo readiness + CLAUDE.md baseline (team-wide rules)
+
+a small skills library (2–5 “repeatable blueprints” for their common tasks)
+
+context/memory approach (what gets indexed, what gets summarized, what gets reused)
+
+safety guardrails (secrets, data boundaries, review workflow)
+
+a measurement dashboard: what changed (lead time, PR throughput, bug rate proxies)
+
+Why it works: low commitment, fast ROI, creates artifacts the org keeps.
+
+Offer 2: Training + workshops (team enablement)
+Half-day / full-day hands-on workshop
+
+Follow-up office hours for 4 weeks
+Good for teams that already have internal champions but need a playbook.
+
+Offer 3: Retainer (Agent Ops / Skill Factory)
+Monthly recurring: you maintain and extend:
+
+skill packages,
+
+workflows,
+
+templates,
+
+and “how we use CC here” documentation.
+
+Why companies like it: it’s a capability without hiring immediately.
+
+Offer 4: Build internal tools for non-technical teams (done-with-you)
+Example: “Legal intake triage tool” / “Analyst report generator”
+
+You use CC to build small apps/scripts that sit in their workflow (Slack, email, internal web form).
+
+The non-technical team never touches CC; they just get the tool.
+
+Harder sale at first, but huge expansion once you’ve earned trust via engineering.
+
+Which business model I’d pick first (and why)
+Best starting combo:
+
+(1) Productized Adoption Sprint → (3) Retainer
+Because it’s:
+
+easy to explain,
+
+low risk for the buyer,
+
+produces tangible artifacts,
+
+and naturally leads to ongoing work (“now maintain/extend our skills + workflows”).
+
+Training-only is often too “soft” unless you already have reputation. Tool-building for non-technical teams is great, but it’s a better phase 2 after you have internal sponsorship.
+
+Your first steps (practical, low-drama)
+Step 1: Pick a narrow initial ICP (so you can win fast)
+Choose one:
+
+“Product engineering teams (10–80 devs)”
+
+“Mobile teams (SwiftUI / iOS)” (if that’s your edge)
+
+“Data/analytics engineering teams”
+The narrower the first wedge, the faster your first 3 wins.
+
+Step 2: Create one “before/after” demo package
+You need a single artifact that proves you’re not selling vibes:
+
+a sample repo + CC workflow
+
+2 example skills (one build skill, one maintenance skill)
+
+a short “operating manual” (1–2 pages)
+
+Step 3: Get 3 pilot customers (discounted, in exchange for case studies)
+Deliver the Adoption Sprint. Capture:
+
+baseline metrics (cycle time/PR throughput proxies),
+
+qualitative feedback (“this stopped us from rewriting X every time”),
+
+screenshots of artifacts (sanitized).
+
+Step 4: Content without becoming a content creator
+If you’re hesitant, do minimum effective marketing:
+
+LinkedIn 2x/week: one tactical post, one case study snippet.
+
+No video required. No personal brand theatre.
+
+Just: “Here’s the CC workflow that stopped us from reinventing tab bars / CI scripts / migrations.”
+
+(If you want, I can turn your first 4 LinkedIn posts into copy-and-paste drafts in your voice.)
+
+Step 5: Build a simple offer page
+One page:
+
+who it’s for,
+
+what you deliver,
+
+timeline,
+
+price range anchor,
+
+and “book a call.”
+
+A few “non-technical role” entry ideas (high ROI, realistic)
+These work well once engineering is on board:
+
+Analyst accelerator: a repo of repeatable “analysis generators” (SQL + Python notebooks + report templates) that CC can assemble quickly.
+
+Legal ops toolkit: contract clause library + redline checklists + template generation (with strict guardrails + human review).
+
+Ops automation: scripts that turn recurring SOPs into buttons (data pulls, reconciliation, ticket triage).
+
+The pattern is the same: capture the workflow → standardize inputs/outputs → CC helps build and maintain the tooling.
+
+If you tell me your background (dev? product? consulting?) and who you already have access to (founders? eng managers? ops leaders?), I’ll suggest:
+
+the best first ICP for you,
+
+a tight “Adoption Sprint” scope,
+
+and a pricing/packaging structure that won’t trap you in custom work.
+
+
+Transcript Unavailable
+00:00
+
+It sounds like you're connecting a lot of dots! In essence, you’re thinking of CC not just as a tool for coders, but as
+
+
+“It's the next day now.”
+00:03
+
+Welcome back!
+
+
+“while I just continue thinking about that, I'm just going on my morning walk, and, you know, one thing I realized, uh, I don't know, is that, well, I don't know, I see it like this, like, potentially, basically my friend does sales. I have a bunch of friends in sales, actually. So, they could even help me do outreach.”
+00:21
+
+That makes a lot of sense! If you already have friends in sales, they could definitely help you open doors. You know, outreach is often one of the hardest parts when you're starting something new. If you get their input, or even
+
+
+“I could just do it myself, you know, I mean, it's just cold emailing or whatever on LinkedIn.”
+00:07
+
+You absolutely could
+
+
+“And it's all about, like, thinking about who I should target and stuff.”
+00:03
+
+Exactly!
+
+
+“And it's also about getting testimonials of some kind, you know, so that, you know, I can kind of say to the person, like, look, I've trained multiple teams on cloud code or on CC.”
+00:14
+
+You’re spot on!
+
+
+“And uh, and it even increased their efficiencies and whatever.”
+00:04
+
+Exactly—those testimonials give credibility. Once you have a few solid examples, you can show concrete impact, making outreach a lot smoother.
+
+
+“Something, yeah, I mean, I have to...”
+00:05
+
+Take your time—this is all part
+
+
+“I mean, I told my friend that, like, I should just think about developing a curriculum.”
+00:07
+
+Developing a curriculum is a great
+
+
+“But he was also saying, like, you should actually just talk to people first.”
+00:06
+
+Your friend makes a good
+
+
+“See what they need and stuff, but I think we're both right at the core concepts.”
+00:04
+
+Absolutely!
+
+
+“They unlike tools that you need to be able to understand and use.”
+00:03
+
+Exactly, balancing
+
+
+“But then for everything more than that, yeah, it should be based on understanding what people are actually having issues with and need help with.”
+00:10
+
+Exactly right—tailoring your approach to their real challenges makes whatever you offer truly valuable.
+
+
+“What do you think, like, Thailand looks like?”
+00:03
+
+For a timeline, I’d keep it lean at first—maybe
+
+
+“All the next steps.”
+00:01
+
+I’d start by having a few conversations with potential users to pinpoint their needs. Based on that, you can refine a small, testable curriculum or offering. Once you have that, set up a pilot—maybe a few weeks—to test it out and adjust before scaling.
+
+
+“Michelle.”
+00:01
+
+You're welcome! Whenever you're ready to bounce around more ideas or refine those next steps, I’ll be here. Enjoy the rest of your walk!
+
+
+“Now, can you say it again?”
+00:01
+
+Of course! I’m happy to help whenever you’re ready—whether it’s brainstorming ideas, refining your next steps, or just talking things through. In the meantime, enjoy
+
+
+“Can you say again what you said before, like what the timeline was?”
+00:03
+
+Sure! I suggested starting with conversations right away to identify needs. After that, you could design a small pilot offering—maybe a few weeks to test with a couple of teams. Once that’s refined, you can start scaling and offering it more broadly. So, it’s a step-by-step approach: research, pilot, refine, and then expand.
+
+
+“Okay, sounds good.”
+00:01
+
+I’m glad it does! If you ever
+
+
+“How could I, how could I do something? Like, part of me, you know, you need to be able to prove to them. One thing is just that, yeah, they'll feel like they learned a bunch of things by the end of the thing. But also, like, how could I, you know, prove that in a more solid way kind of too? So, like, um...”
+00:24
+
+One solid way is
+
+
+“Um...”
+00:00
+
+...to design some measurable outcomes.
+
+
+“I guess.”
+00:00
+
+For example, you
+
+
+“It's like maybe I could, like, when we start having to do a project, some particular task, and see how it does, and like, be able to have some kind of verifier for that task or whatever. So they use CC to do it, right?”
+00:15
+
+Yes, exactly! You could set up
+
+
+“Evaluate how they did it, how long it took them, and how well it was done.”
+00:05
+
+Precisely!
+
+
+“And then we'd go and do the course, then do the coaching.”
+00:03
+
+Exactly, after
+
+
+“And then after that, have them do another task, which is, I don't know, similar complexity or whatever, and then evaluate them based on how long it took them to do that and, yeah, again, their accuracy or whatever, and then see.”
+00:18
+
+Exactly! That before
+
+
+“You know how it changed, right?”
+00:02
+
+Yes, and having that comparison—before and after—will give you concrete proof of improvement, making it easier to show the value of what you taught them.
+
+
+“I'm still unsure.”
+00:01
+
+That’s completely fine.
+
+
+“I don't know, I mean, my friend says it's not that scalable, and it's true, it's not that scalable.”
+00:06
+
+It’s true that some
+
+
+“You know what is really scalable? Something I even purchased myself.”
+00:04
+
+Ah, sounds like you
+
+
+“This is a guy who does YouTube on CC and other AI tools, but actually it's mainly CC.”
+00:07
+
+That’s a great example!
+
+
+“And he then just sells a course that you purchase and go through it yourself, so he doesn't have to spend any time. He just spends time making content, like high-quality YouTube videos and stuff. He garnered a pretty big following, and so then his courses are quite...”
+00:20
+
+That’s definitely a
+
+
+“Effective.”
+00:00
+
+It can be! If you enjoy creating content and building a community, a scalable course paired with strong educational content can reach a lot of people—just depends on what suits you best!
+
+
+“So how do I decide what suits me best, right?”
+00:02
+
+The best way is to
+
+
+“The thing for me is like, a couple aspects, right? One, it's kind of cringe to make a YouTube channel.”
+00:07
+
+I get it—putting
+
+
+“Or Instagram, or whatever it is, you know? It's kind of cringe to me. Number two.”
+00:06
+
+That’s totally valid.
+
+
+“It feels like it'll be difficult and take a long time, right? It just feels like...”
+00:06
+
+It’s normal to feel
+
+
+“That'll be difficult to get that initial following and get some traction.”
+00:07
+
+It does take time,
+
+
+“And then, I guess it's just those two things, honestly.”
+00:04
+
+Both are very common concerns! If you want a less public route, you might focus on direct client work first. Then, if you choose content later, you’ll have confidence from your experience and results.
+
+
+“Yeah, I don't know. I don't know, it's kind of hard to, you know, think or, you know, figure it out.”
+00:06
+
+It's completely normal
+
+
+“Oh.”
+00:00
+
+to have that uncertainty. The key is to experiment in small steps—try a conversation or a mini project, and see what feels right. Each step will bring clarity.
+
+
+“I'm not sure.”
+00:00
+
+Absolutely! If you ever want to bounce around ideas or just talk through the process, I’m here to help you sort it out!
+
+
+“So, there's basically the two maps that we talked about, right? Can you just describe each of them briefly?”
+00:06
+
+Absolutely! The first route is hands-on consulting—working directly with teams, helping them adopt CC, and building their tools. The second route is scalable content—like creating a course or materials once and reaching many people. You can always start small with one and pivot if needed!
+
+
+“One thing I will also just mention is...”
+00:03
+
+Go ahead! I’m all ears and ready
+
+
+“I feel like something, yeah, I mean, something I have, which is like a good hook, especially for content, is that like I can really type without looking, like really confidently. I mean, I can write like a lot, like I can, yeah, so.”
+00:19
+
+That’s a fantastic hook! If you can
+
+
+“I don't know, it's kind of like a, you know, for content.”
+00:02
+
+Absolutely! Showcasing
+
+
+“Or something, like, I feel like that's a pretty good hook, because I could be, like, sitting in a park on a bench, on a bench, or laying down on a beach.”
+00:10
+
+Yes, that’s a
+
+
+“or anything else. And then, so I can, you know, I could have a friend record me and just show me typing really fast while, like, looking around. Or, and then I, and then I see the camera or something, and I, and I'm, like, I keep typing still or something. I think that could be a pretty good hook, you know. Um...”
+00:22
+
+It definitely could!
+
+
+“So I could potentially, like, garner a following, maybe, in that, I don't know, doing social media content, you know. And there's other ways to monetize that too. Like I could, just having a following, you could monetize it in multiple ways. So, I don't know, that's an interesting thing to think about, a way to do it, or whatever.”
+00:24
+
+It is an interesting angle! If it feels fun or natural, it’s a great way to stand out. Just know you can test it—no commitment—see how it feels!
+
+
+“Yeah, I mean, I guess what I would do is make a new Instagram account, you know, like, not linked to my current, my normal one.”
+00:07
+
+That’s a smart approach!
+
+
+“And start discussing from zero, all of this, right?”
+00:03
+
+Yes, exactly! Starting fresh gives you the freedom to experiment without any pressure—just step by step, and see what works for you!
+
+
+“What are a few different, like, video ideas, maybe, that I can have? What do you think?”
+00:07
+
+You could start with short, engaging demos. For example, show a real-world problem solved with CC in under a minute. Another could be a “before and after”—how a task improves with CC. You could also do a “tip of the day” format, where you highlight one skill or trick at a time, and make it actionable for viewers.
+
+
+“Yeah, I mean, I like those ideas, generally.”
+00:03
+
+I’m glad they resonate! You can always tweak them to match your style. The key is finding what’s fun and sustainable for you.
+
+
+Give a breakdown on everything we discussed and figured out now
+
+Thought for 37s
+Here’s a clean breakdown of everything we discussed / figured out so far, stitched into one coherent plan.
+
+1) The core thesis you’re building
+CC (Claude Code) is valuable expertise right now because companies want to operationalize AI-assisted software development (and most teams are still doing it ad-hoc).
+
+CC is also broader than “coding faster” — it’s a strong agent harness (read/write files, run tools, automate workflows), so it can enable non-coding roles too (legal, analyst, ops) either by:
+
+teaching them to use agentic workflows, and/or
+
+building “agent-powered tools” for them (often via the engineering org).
+
+Key implication: your value isn’t “prompts.” It’s systems + workflows + repeatable assets (skills, templates, guardrails, measurement, enablement).
+
+2) The two main “maps” (routes) we identified
+Map A — Hands-on consulting / coaching (high-touch, high-ticket)
+What it looks like:
+
+You help a team adopt CC properly (workflows, standards, skill library, guardrails).
+
+You run workshops + office hours + maybe build initial internal tools.
+Pros:
+
+Fastest path to revenue.
+
+Generates testimonials + case studies quickly.
+
+You learn real pain points directly.
+Cons:
+
+Not as scalable hour-for-hour.
+
+Map B — Scalable content / course (low-touch, high-scale)
+What it looks like:
+
+You build a course once; sell repeatedly.
+
+You grow audience via YouTube/IG/LinkedIn.
+Pros:
+
+Scales without trading time.
+
+Can become a durable asset/business.
+Cons:
+
+Requires attention + consistency to build distribution.
+
+Feels “cringe” to you and may take time to gain traction.
+
+Important conclusion we landed on: these aren’t mutually exclusive. A smart sequence is often:
+Consulting first → use results to create content/course later (when you have proof + confidence + real examples).
+
+3) Outreach + sales: what you realized
+You have friends in sales → they can help with:
+
+targeting, messaging, outreach sequences, objection handling,
+
+intros to decision makers, or even running outreach for you.
+
+You can also do it yourself (cold email + LinkedIn).
+
+The real lever is choosing who to target (ICP) and having proof.
+
+4) Curriculum vs “talk to people first”
+You and your friend are both right:
+
+You do need a core curriculum (foundational concepts of CC, safe usage, workflows).
+
+But the “advanced / valuable” part should come from discovery:
+
+talk to teams, learn their bottlenecks,
+
+then tailor modules + skills to what they actually need.
+
+So the right approach is:
+Build a small “core curriculum skeleton,” but let customer conversations shape the real product.
+
+5) Timeline shape we converged on (lean + iterative)
+Start with conversations (discovery calls) to identify needs.
+
+Then design a small pilot (short program / engagement) and run it with 1–3 teams.
+
+Use the pilot to produce:
+
+measurable improvements,
+
+testimonials,
+
+a refined “productized” offer.
+
+Then scale with either:
+
+more clients + retainers, or
+
+course/content built from the pilot learnings.
+
+(You don’t need to fully decide “consulting vs course” upfront; you can choose a path that creates options.)
+
+6) Proving value: how to make results feel “real”
+You proposed a strong measurement idea:
+
+Before: give them a task (or workflow), measure time/quality.
+
+After: train/coach them, give a comparable task, measure again.
+
+Ways to make this concrete (pick a few, not all):
+
+Speed: time-to-complete, number of iterations, time-to-PR, time-to-merge.
+
+Quality: tests passing, linting, bug regressions, reviewer score/rubric, rollback rate.
+
+Consistency: adherence to patterns, fewer architectural rewrites, reuse of templates/skills.
+
+Output: number of reusable skills/templates created, docs added, automation coverage.
+
+This becomes your proof for outreach:
+
+“We reduced feature implementation cycle time by X% and cut rework by Y, while standardizing architecture across projects.”
+
+7) Scalability tension (and how it resolves)
+Your friend’s point: high-touch coaching is less scalable.
+
+Your point: it’s the fastest way to get credibility + testimonials, which then makes scalable products possible.
+
+Practical synthesis:
+Start with a productized engagement (fixed scope) so it’s more scalable than pure hourly consulting, and still produces proof.
+
+8) Your “content hook” idea (and why it’s actually good)
+You noticed you have a standout hook:
+
+you can type confidently without looking (fast touch typing),
+
+so you can record fun, distinctive demos anywhere (bench, beach, park),
+
+which makes short-form content feel less “talking head / cringe” and more “performance + proof.”
+
+You also liked the idea of:
+
+making a separate IG account not tied to your personal one,
+
+starting from zero with low pressure, experimenting.
+
+That’s a great way to test content without identity baggage.
+
+9) Content/video ideas we touched (and the direction to take them)
+We talked about formats like:
+
+“1-minute CC demo”: real problem solved fast.
+
+Before/After: show baseline vs after skill/workflow adoption.
+
+Tip of the day: one small actionable CC workflow.
+
+If you lean into your hook, the vibe can be:
+
+“watch me ship this while looking around / walking / sitting outdoors”
+
+with the screen capture as the real substance.
+
+10) What your next steps look like (practical)
+Here’s the “do this next” list based on everything above:
+
+Step 1: Pick an initial target (ICP)
+Examples:
+
+mobile teams (if that’s your edge),
+
+product engineering teams (10–80 devs),
+
+startups with no internal standards and high context switching.
+
+Step 2: Draft a pilot offer (simple + measurable)
+Something like:
+
+“CC Enablement Sprint” (workshop + workflows + 2–5 reusable skills + measurement plan)
+
+Step 3: Run discovery calls (5–10)
+Goal: learn where time is bleeding and what consistency problems exist.
+
+Step 4: Run 1–3 pilots → capture proof
+Get:
+
+one quantified result,
+
+one testimonial,
+
+one sanitized case study.
+
+Step 5: Decide scale path after proof exists
+double down on consulting/retainers, or
+
+package into a course/content system with real credibility.
+
+Step 6: Low-pressure content experiment (optional)
+new IG account
+
+5 posts in 2 weeks
+
+keep it demo-driven, not “influencer”-driven
+
+If you want, I can turn this into:
+
+a one-page offer (what you deliver, who it’s for, outcomes), and
+
+a discovery call script + a simple before/after evaluation rubric you can reuse across clients.
+
+
+Yeah do that but just give to my brief and what my path is start until success etc
+
+Thought for 21s
+Your brief (what you’re doing)
+You’re positioning yourself as the person who helps teams actually operationalize CC (Claude Code)—not “cool prompts,” but repeatable workflows + skills + guardrails + measurable outcomes. Start with engineering teams (easiest to prove ROI), then expand into non-technical workflows by building internal tools once you have sponsorship.
+
+The path: start → traction → “success”
+Think in 5 phases. This is the shortest path that creates proof, revenue, and optional scalability later.
+
+Phase 1 — Pick your wedge + package an offer (Week 1)
+Goal: be able to explain what you do in 10 seconds.
+
+Pick 1 ICP (example: “product engineering teams 10–80 devs” or “mobile teams”).
+
+Create one productized offer: “CC Enablement Sprint” (1–2 weeks)
+Deliverables:
+
+baseline CLAUDE.md (team standards)
+
+3–5 reusable skills (interactive + template-based, not text walls)
+
+workflow playbook (how to use CC in PRs, reviews, refactors)
+
+measurement plan (before/after tasks + metrics)
+
+Decide a simple pilot price (discounted) in exchange for a testimonial/case study.
+
+Output of Phase 1: a one-page PDF or Notion page describing the sprint + outcomes.
+
+Phase 2 — Talk to people first (Weeks 1–2, parallel)
+Goal: learn the real pain + book pilots.
+
+Do 10–15 discovery calls with EMs, tech leads, founders.
+
+Ask: “Where does AI help you today?” “Where does it create mess?” “What do you repeatedly rebuild?”
+
+Use sales friends for intros and outreach scripts, or do direct LinkedIn/cold email.
+
+Output of Phase 2: 3 common problems + language that prospects actually use.
+
+Phase 3 — Run 1–3 pilots + get proof (Weeks 3–6)
+Goal: generate evidence you can sell.
+
+Each pilot runs like:
+
+Day 1: baseline + “before” benchmark task
+
+Days 2–5: training + building their first skill library + workflows
+
+Last day: “after” benchmark task + measurement + retro
+
+Proof you collect:
+
+time-to-complete delta (before vs after)
+
+quality rubric (tests passing, fewer iterations, reviewer score)
+
+consistency outcomes (standard architecture, fewer rewrites)
+
+1–2 quotes + permission to share sanitized results
+
+Output of Phase 3: 2–3 testimonials + one clean case study.
+
+Phase 4 — Productize + raise price + retainers (Weeks 6–10)
+Goal: stop selling “custom consulting,” start selling a system.
+
+Turn the sprint into a repeatable checklist + templates.
+
+Raise price.
+
+Add a follow-on: “Agent Ops Retainer” (monthly)
+You maintain/expand:
+
+skill library
+
+templates
+
+onboarding
+
+measurement + governance
+
+Output of Phase 4: predictable revenue (sprints + retainers).
+
+Phase 5 — Optional scale (Weeks 10–16+)
+Goal: scale without adding hours.
+
+You have two low-cringe options:
+
+Minimum content (recommended):
+
+2 LinkedIn posts/week
+
+each post = one lesson from a real pilot (no influencer vibes)
+
+IG/Reels using your typing hook (optional):
+
+“watch me ship X with CC in 60 seconds”
+
+outdoors/bench/beach angle = your signature
+
+new account = low pressure
+
+Once you have 5–10 real wins, you can package a course if you want—but only after the proof exists.
+
+What “success” looks like (clear milestones)
+Pick your target, but a solid definition is:
+
+30 days: 10–15 discovery calls, 1 pilot booked
+
+60 days: 2–3 pilots completed + 2 testimonials + 1 case study
+
+90 days: repeatable sprint + 1–3 retainers or a steady pipeline of sprints
+
+6 months: recognized CC enablement specialist + optional scalable product (course/community/tools)
+
+Your next 3 moves (do these now)
+Write your one-liner:
+“I help teams operationalize Claude Code with repeatable skills, workflows, and measurable productivity gains.”
+
+Draft your CC Enablement Sprint one-pager (scope + deliverables + benchmark plan).
+
+Book 10 discovery calls (use your sales friends for intros + messaging).
+
+If you want, I’ll write you the one-page offer and a discovery call script in your voice—tight and ready to use.
+
+
+“Hey, can you hear me?”
+00:01
+
+I hear you loud and clear! If there's anything more you'd like to unpack or refine, just let me know!
+
+
+“So I think what I wanna talk about now is my next steps for my community. I mean, one thing is basically Cloud Code, or Ceceus. It has a few, it has some different concepts, so like I didn't think about basically making a curriculum that people can understand well, that really makes them get it.”
+00:24
+
+To build a curriculum that
+
+
+“And then, so like when I'm walking through with them, I can give them all these files.”
+00:05
+
+Absolutely, you can
+
+
+“And we can walk through it together, and they can really get it. So one thing is just understanding the agent harness, understanding what the agent is, how it's working, what tools it has, you know, what it can do and stuff, just at the base level. And then next, basically go through the key tools that are part of it that help you work even faster and better, right? Not just the base stuff. And so, one of those is...”
+00:31
+
+It sounds like you’re laying
+
+
+“You know, MTP and plugins, which are like external tools we can download from a marketplace, which can help integrate with things like Jira, Slack, whatever. Then there's...”
+00:13
+
+... also skill
+
+
+“skills, and there's agents, and there's slash commands, or they're just called commands, actually. These are helping you actually do whatever work it is that you want to do faster. So commands. I mean, yeah, you already know what it all is, so I'm not gonna explain it all. But basically, I need to think about building a curriculum where it's like really simple to show how each of these work well.”
+00:28
+
+A strong approach is
+
+
+“So it's really clear to the people, you know, for each of these main concepts. So I can show it really well, you know? And then, after that, basically just...”
+00:14
+
+...you’d lead them through practical examples,
+
+
+“Um...”
+00:00
+
+so they apply each concept step-by-step. That way, they not only understand what CC can do, but they immediately experience how it makes them faster and more effective. That practical grounding will make your curriculum memorable and actionable!
+
+
+“Yeah, so that's something I need to do. And then another thing I need to do is then be able to adapt that for whatever work.”
+00:10
+
+Exactly! Once
+
+
+“about their doing whatever domain they're familiar with, you know, whatever they're gonna understand best, right? So, basically what I really need to do, actually, is just have an AI agent that I can build that's built for adapting that curriculum for the domain.”
+00:21
+
+That’s a smart strategy!
+
+
+“And even like particular tasks, you know, that way, I'm working with, I don't know, a legal team, and I'm gonna do the coaching or consulting for them, then, yeah, I can adapt the curriculum for them. Then the next thing is,”
+00:19
+
+Once you’ve got that adaptable
+
+
+“So that's some stuff I need to do, right? I need to build all that stuff, basically. And that's a process of basically getting AI to like research and document about each of these concepts, and then just brainstorming with you, most likely, on what the best curriculum would be, I guess.”
+00:20
+
+That sounds like a solid
+
+
+“I would like basically an example exercise for each of these things so that then I can make that as like a little document. And then I can test it out and see, is it really clear? Is it a good example, etc.? Yeah. Then I can make that agent that's for adapting stuff as well. So there's all that. I think the thing is also is that I do this for, like, I would feel comfortable doing this for coders, for engineers, who are going to use CC for coding or development. But then, on the other hand, I want to be able to, I want to position myself as, like, I can onboard sales teams and legal teams and finance teams to use CC to be able to accelerate their workflow. And so I think what I want to do is, I basically need to, like, understand how to do that. I need to actually do it myself first because I haven't done that before, right? I haven't used CC for sales or finance or legal. So maybe what it is is, like, thinking about each of those domains and potentially more domains. But probably starting with those domains and, like, understanding what are the main tasks within those domains that will be good for using CC to do them faster. And what do those workflows actually look like as well, obviously. And stuff. And then, like, what are the steps of them? What, you know, what integrations are needed and what tools should be built? And basically building myself, because this is what I do with my own work, right? I operationalize the work that I do every day. I have it operationalized so I can do it a lot faster, but it's programming. So I need to do the same thing with all these different workflows. Basically, get my hands dirty so that I can then position myself as an expert in using CC on those different domains, workflows. That way, then I can go find a team and I can say, look, have you heard about CC? I know you've heard about AI and your, and, you know, your company is probably telling your teams and stuff to, to make a push to use AI in your job to do it faster. Well, I specialize in onboarding teams, not just for coding, but also sales, finance, legal. And, you know, these are the workflows I even have specific experience with, and I'm offering a discounted thing to do, like, hands-on coaching session, maybe like two sessions or something, with your team to help you guys adopt AI just like your leadership wants you to. So that's why, that's how I see it. What do you think?”
+03:26
+
+I think you’ve outlined a thoughtful path! By immersing yourself in domain-specific workflows, you’ll gain real credibility. That hands-on experience will make your offer tangible, and it’s smart to start with a targeted pilot (like a discounted session) to prove value. Once you’ve done that, you’ll be well-positioned to confidently scale your approach!
+
+
+“Yeah, exactly. So, yeah, I don't know. Is there anything, is there any gaps you see? Is there anything you see that doesn't really make sense or anything like that?”
+00:11
+
+Honestly, your plan is coherent. The key challenge will be prioritization—narrowing domains at first so you don’t stretch yourself thin. Once you prove success in one or two areas, expanding will be easier. Just keep iterating and learning from each step!
+
+
+Well, now I'm just going to ask you, please, could you basically do research on finance, legal, and sales? What would the, what useful workflows be? Or what would the main workflows be? Let's just pick three, three of the kind of most valuable ones, which means they're done often, you know, they're kind of like, they're most appropriate to use an AI workflow to assist to do faster, whatever. Yeah, anyways, three for each domain, and then like, give me a breakdown of each of those workflows in a compact way, just laying out the steps, what systems or tools they often integrate with, or like what data is needed, et cetera, et cetera. And also what points, what human decision points there are within the workflow, like where the decision point is and also what it is. Of course.
+
+Thought for 1m 19s
+Below are 3 high-value, high-frequency workflows for each domain (finance, legal, sales), with steps, common tools/data, and the key human decision points. I’m picking workflows that are (a) done constantly, (b) structured enough to “agent-ize,” and (c) still have clear places where humans must decide/approve.
+
+Finance (3)
+1) Accounts Payable: invoice intake → 3-way match → approval → pay
+Why it’s high value: Every company does it; it’s repetitive, rules-based, and full of “extract/validate/route.” 
+
+Steps
+
+Receive invoice (email/PDF/portal) and capture key fields (vendor, amount, terms, line items).
+
+Match invoice to PO + goods receipt (3-way match) and flag discrepancies.
+
+Code to GL/cost center/project; attach supporting docs.
+
+Route for approvals based on policy (amount threshold, department, exceptions).
+
+Schedule payment / remit and record payment status. 
+
+Common systems/tools
+
+ERP/accounting: NetSuite, SAP, Oracle, QuickBooks
+
+AP automation: Tipalti, Bill.com, Ramp
+
+Procurement: Coupa/Ariba, PO systems
+
+Storage: Google Drive/SharePoint
+
+Data needed
+
+Invoice, PO, goods receipt/receiving report, vendor master, approval rules, GL mappings. 
+
+Human decision points
+
+Approve exceptions (price/quantity mismatch, missing receipt, non-PO spend)
+
+Approve GL/cost allocation when ambiguous
+
+Approve payment timing for cash management (pay now vs hold)
+
+2) Month-end close: reconcile → journal entries → financial statements
+Why it’s high value: It’s a monthly fire drill for many teams; lots of checklist work + reconciliations + variance review. 
+
+Steps
+
+Ensure all invoices/transactions posted; cut-off review.
+
+Reconcile bank/cash, AR/AP, inventory, prepaid, fixed assets, intercompany.
+
+Post accruals/adjusting journal entries.
+
+Generate financial statements; run variance analysis vs budget/last month.
+
+Review/approve close package; lock the period; distribute reporting. 
+
+Common systems/tools
+
+ERP/GL: NetSuite, SAP, Oracle
+
+Reconciliations: BlackLine, spreadsheets
+
+BI/reporting: Looker, Tableau, PowerBI
+
+Data needed
+
+GL + subledgers (AR/AP), bank statements/feeds, schedules (accruals, prepaid, FA), budget/forecast. 
+
+Human decision points
+
+Approve adjusting entries (materiality judgment)
+
+Variance explanations (what’s real vs error)
+
+Close sign-off (controller/CFO)
+
+3) FP&A: budgeting + forecasting + performance monitoring
+Why it’s high value: Constantly used for decisions; heavy on data consolidation + narrative + scenario modeling. 
+
+Steps
+
+Collect/validate financial + operational drivers (revenue, headcount, pipeline, unit metrics).
+
+Build plan/forecast model; run scenarios (base/upside/downside).
+
+Align with stakeholders; iterate assumptions.
+
+Publish forecast; monitor actuals vs plan; refresh forecast cadence. 
+
+Common systems/tools
+
+ERP/GL + data warehouse
+
+Planning tools: Anaplan, Adaptive, Pigment (varies)
+
+Spreadsheets + BI dashboards
+
+Data needed
+
+Historical actuals, driver metrics (pipeline, churn, headcount), assumptions, constraints, prior plan versions. 
+
+Human decision points
+
+Approve assumptions (growth, pricing, hiring plan)
+
+Choose scenario (risk tolerance)
+
+Tradeoffs (cut spend vs miss targets)
+
+Legal (3)
+1) Contract lifecycle management: request → draft → negotiate → approve → sign → obligations/renewal
+Why it’s high value: Tons of repeat work; structured stages; high “paperwork + redlines + routing.” 
+
+Steps
+
+Intake request (type, counterparty, business context, deadline).
+
+Draft from templates / clause library.
+
+Negotiate/redline with counterparty; version control.
+
+Internal approvals (legal/finance/security execs as needed).
+
+Execute (e-sign), store, track obligations + renewal/termination. 
+
+Common systems/tools
+
+CLM: Ironclad, DocuSign CLM, ContractSafe
+
+E-sign: DocuSign, Adobe Sign
+
+Storage: SharePoint/Drive; ticketing: Jira/ServiceNow
+
+Data needed
+
+Templates + clause library, playbooks (fallback positions), risk categories, approval matrix, metadata (term, renewal dates). 
+
+Human decision points
+
+Accept/mitigate risk in non-standard clauses (liability, indemnity, IP, data)
+
+Approve deviations from playbook
+
+Final sign-off (authorized signatory)
+
+2) Legal intake & triage: request capture → categorize → route → track
+Why it’s high value: Legal teams get hammered with requests; bottleneck is intake clarity + routing + priority. 
+
+Steps
+
+Capture request via form/email/Slack (structured fields).
+
+Triage: classify matter type, urgency, risk, complexity.
+
+Route to correct team/lawyer; set SLA and tasks.
+
+Track status/communications; close out with outcome + learnings. 
+
+Common systems/tools
+
+Matter management / intake: (varies) Onit/ServiceNow/Jira, CLM tools
+
+Communication: Slack/Email
+
+Knowledge base: policies, playbooks
+
+Data needed
+
+Request details, documents, deadlines, business unit, jurisdiction, risk flags, requester info. 
+
+Human decision points
+
+Prioritize vs queue (tradeoffs)
+
+Escalate high-risk/urgent matters
+
+Decide if request is self-serve vs needs lawyer time
+
+3) eDiscovery: preserve → collect → process → review → produce
+Why it’s high value: High-cost, time-sensitive, process-heavy; lots of filtering/summarizing while staying defensible. 
+
+Steps
+
+Identify custodians/sources; issue litigation hold.
+
+Preserve & collect ESI (email, chat, docs, devices).
+
+Process (dedupe, index, normalize).
+
+Review & analyze for relevance/privilege.
+
+Produce/present evidence in required format. 
+
+Common systems/tools
+
+eDiscovery platforms: Relativity, DISCO, Nuix (varies)
+
+Data sources: Microsoft 365/Google Workspace, Slack/Teams, endpoint tools
+
+Data needed
+
+Custodian list, date ranges, search terms, relevance criteria, privilege rules, production specs. 
+
+Human decision points
+
+Determine scope (custodians, time window)
+
+Privilege calls (legal judgment)
+
+Production decisions (what’s responsive, redactions)
+
+Sales (3)
+1) Lead qualification + discovery: inbound/outbound → qualify → discovery notes → next step
+Why it’s high value: Done every day; high leverage because better qualification saves massive time downstream. 
+
+Steps
+
+Capture lead + intent signals (form fills, website activity, referrals, outbound lists).
+
+Qualify against ICP + criteria (budget/need/timing, etc.).
+
+Run discovery call; capture pain, stakeholders, requirements.
+
+Decide next step: disqualify, nurture, demo, or create opportunity. 
+
+Common systems/tools
+
+CRM: Salesforce, HubSpot
+
+Engagement: Outreach, Salesloft
+
+Meetings: Zoom/Google Meet; call intel: Gong (varies)
+
+Data enrichment: Clearbit/Apollo (varies)
+
+Data needed
+
+Lead/contact/account data, activity history, ICP rules, discovery notes, meeting transcript/summary.
+
+Human decision points
+
+Disqualify vs pursue (strategic fit)
+
+Prioritize leads (time allocation)
+
+Choose messaging/angle based on pain + persona
+
+2) Pipeline management + forecasting: keep CRM accurate → run deal reviews → forecast calls
+Why it’s high value: Forecast accuracy drives hiring/spend decisions; pipeline reviews are constant and depend on clean data. 
+
+Steps
+
+Maintain opportunity hygiene (stage, amount, close date, next step).
+
+Run pipeline reviews: identify stalled deals, risks, missing stakeholders.
+
+Update forecast rollups; identify coverage gaps; course-correct. 
+
+Common systems/tools
+
+CRM: Salesforce/HubSpot
+
+Forecasting modules (inside CRM) + spreadsheets
+
+Comms: Slack/Email; dashboards/BI
+
+Data needed
+
+Opportunity fields, stage definitions/exit criteria, activity signals, historical conversion rates, quota targets. 
+
+Human decision points
+
+Commit / best-case judgments on deals
+
+Decide where to intervene (exec sponsor, pricing, timeline)
+
+Decide resource allocation (SE time, discount room)
+
+3) Quote-to-cash: configure/pricing → quote/proposal → contract → fulfill → invoice/collect
+Why it’s high value: It’s where deals die from friction; lots of documents + approvals + handoffs. 
+
+Steps
+
+Configure offering; apply pricing + discount rules.
+
+Generate quote/proposal; iterate with customer.
+
+Contract creation/negotiation/execution.
+
+Order fulfillment; billing/invoicing; collect payment (plus renewals). 
+
+Common systems/tools
+
+CRM + CPQ: Salesforce CPQ, Conga (common)
+
+Contracting: CLM + DocuSign
+
+Finance handoff: ERP/Billing platform
+
+Data needed
+
+Product catalog, pricing rules, discount policy, approval thresholds, standard terms, customer requirements. 
+
+Human decision points
+
+Discount approval (margin tradeoff)
+
+Non-standard terms (legal risk)
+
+Go/no-go on final proposal packaging
+
+How to use this for your CC onboarding offer (quick framing)
+For each domain, you now have 3 “flagship workflows” that are:
+
+common,
+
+structured,
+
+and have clear human approvals.
+
+That’s perfect for “two-session pilot” positioning:
+
+Session 1: map their real version of the workflow + identify bottlenecks + pick 1 workflow to improve
+
+Session 2: implement an agent-assisted version + train them + define before/after metrics
+
+If you want, I’ll turn one workflow per domain into a ready-to-run pilot plan (intake form, success metrics, and what integrations to hook first).
+
+
+
+
+

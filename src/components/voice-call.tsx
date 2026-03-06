@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Mic, MicOff, Phone, PhoneOff, ChevronDown, AlertCircle, WifiOff } from 'lucide-react';
+import { Mic, Phone, ChevronDown, AlertCircle, WifiOff } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { SCENARIOS, type TranscriptEntry, type Correction } from '@/lib/types';
 import { getTrialState, startTrial, endTrial } from '@/lib/trial';
@@ -20,6 +20,12 @@ interface VoiceCallProps {
 }
 
 type CallStatus = 'idle' | 'connecting' | 'active' | 'paused' | 'ended';
+
+const ACTION_CHIPS = [
+  { label: 'Translate last', message: 'Please translate your last message into English.' },
+  { label: 'Slow down', message: 'Please repeat that more slowly and clearly.' },
+  { label: 'Repeat', message: 'Please repeat your last message.' },
+];
 
 export function VoiceCall({ onEnd }: VoiceCallProps) {
   const [status, setStatus] = useState<CallStatus>('idle');
@@ -61,14 +67,12 @@ export function VoiceCall({ onEnd }: VoiceCallProps) {
     },
   });
 
-  // Format duration as mm:ss
   const formatDuration = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
-  // Check trial state on mount
   useEffect(() => {
     const trial = getTrialState();
     if (trial.isTrial && !trial.expired) {
@@ -78,10 +82,8 @@ export function VoiceCall({ onEnd }: VoiceCallProps) {
     }
   }, []);
 
-  // Update trial remaining every second
   useEffect(() => {
     if (status !== 'active' || trialRemaining === null) return;
-
     const interval = setInterval(() => {
       const trial = getTrialState();
       if (trial.expired && !showTrialModal) {
@@ -94,7 +96,6 @@ export function VoiceCall({ onEnd }: VoiceCallProps) {
     return () => clearInterval(interval);
   }, [status, trialRemaining, showTrialModal]);
 
-  // Start timer when call is active
   useEffect(() => {
     if (status === 'active') {
       timerRef.current = setInterval(() => {
@@ -120,7 +121,6 @@ export function VoiceCall({ onEnd }: VoiceCallProps) {
       const audioContext = new AudioContext();
       audioContextRef.current = audioContext;
 
-      // Set up analyser for visualization (separate from the capture node)
       const source = audioContext.createMediaStreamSource(stream);
       const analyser = audioContext.createAnalyser();
       source.connect(analyser);
@@ -154,11 +154,8 @@ Start by greeting the user warmly in Spanish and inviting them to choose what th
 
   const handleEndCall = async () => {
     setStatus('ended');
-
-    // Disconnect from Gemini Live API
     geminiLive.disconnect();
 
-    // Stop mic tracks and close audio context
     if (mediaStreamRef.current) {
       mediaStreamRef.current.getTracks().forEach((track) => track.stop());
       mediaStreamRef.current = null;
@@ -168,16 +165,13 @@ Start by greeting the user warmly in Spanish and inviting them to choose what th
       audioContextRef.current = null;
     }
 
-    // End trial session
     endTrial();
 
-    // Prepare new words from corrections
     const newWords = corrections.map((c) => ({
       term: c.corrected,
       meaning: c.original,
     }));
 
-    // Save session to Supabase
     try {
       await fetch('/api/sessions', {
         method: 'POST',
@@ -194,7 +188,6 @@ Start by greeting the user warmly in Spanish and inviting them to choose what th
       console.error('Failed to save session:', err);
     }
 
-    // Navigate to recap
     onEnd({
       durationSeconds: duration,
       transcript,
@@ -209,7 +202,6 @@ Start by greeting the user warmly in Spanish and inviting them to choose what th
     setScenario(selected?.name || null);
     setShowScenarioPicker(false);
 
-    // Tell Gemini to start the chosen scenario
     geminiLive.sendTextMessage(
       `Let's practice this scenario: "${selected?.name}". Please set the scene and start the role-play in Spanish.`
     );
@@ -219,7 +211,6 @@ Start by greeting the user warmly in Spanish and inviting them to choose what th
     setCorrections((prev) => [...prev, correction]);
     setLatestCorrection(correction);
 
-    // Add to transcript
     setTranscript((prev) => [...prev, {
       role: 'assistant',
       content: `Correction: "${correction.original}" → "${correction.corrected}"`,
@@ -231,7 +222,6 @@ Start by greeting the user warmly in Spanish and inviting them to choose what th
   if (status === 'idle') {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh]">
-        {/* Error State */}
         {error === 'mic-denied' && (
           <div className="mb-8 p-4 bg-red-500/20 border border-red-500/30 rounded-xl max-w-sm text-center">
             <AlertCircle className="w-8 h-8 text-red-400 mx-auto mb-2" />
@@ -254,6 +244,7 @@ Start by greeting the user warmly in Spanish and inviting them to choose what th
         <button
           onClick={handleStartCall}
           className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg shadow-purple-500/30 hover:scale-105 active:scale-95 transition-transform"
+          aria-label="Start voice call"
         >
           <Phone className="w-10 h-10 text-white" />
         </button>
@@ -265,11 +256,8 @@ Start by greeting the user warmly in Spanish and inviting them to choose what th
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh]">
         <div className="relative w-24 h-24 mb-4">
-          {/* Outer ring animation */}
           <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500/40 to-purple-600/40 animate-ping" />
-          {/* Middle ring */}
           <div className="absolute inset-2 rounded-full bg-gradient-to-br from-blue-500/60 to-purple-600/60 animate-pulse" />
-          {/* Inner circle */}
           <div className="absolute inset-4 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
             <Mic className="w-8 h-8 text-white animate-pulse" />
           </div>
@@ -281,182 +269,233 @@ Start by greeting the user warmly in Spanish and inviting them to choose what th
   }
 
   return (
-    <div className="min-h-[calc(100vh-5rem)] flex flex-col">
-      {/* Top Bar */}
-      <div className="flex items-center justify-between px-4 py-3">
-        <div className="flex items-center gap-2">
-          <span
-            className={cn(
-              'w-2 h-2 rounded-full',
-              status === 'active' ? 'bg-green-500 animate-pulse' : 'bg-yellow-500'
+    <div className="min-h-[calc(100vh-5rem)] flex flex-col lg:flex-row">
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col">
+        {/* Top Bar */}
+        <div className="flex items-center justify-between px-4 py-3">
+          <div className="flex items-center gap-2">
+            <span
+              className={cn(
+                'w-2 h-2 rounded-full',
+                status === 'active' ? 'bg-green-500 animate-pulse' : 'bg-yellow-500'
+              )}
+            />
+            <span className="text-sm font-medium capitalize">{status}</span>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <span className="text-lg font-mono">{formatDuration(duration)}</span>
+            {trialRemaining !== null && (
+              <span className="text-xs text-white/60">
+                Trial: {Math.floor(trialRemaining / 60)}:{Math.floor(trialRemaining % 60).toString().padStart(2, '0')}
+              </span>
             )}
-          />
-          <span className="text-sm font-medium capitalize">{status}</span>
-        </div>
+          </div>
 
-        <div className="flex items-center gap-4">
-          <span className="text-lg font-mono">{formatDuration(duration)}</span>
-          {trialRemaining !== null && (
-            <span className="text-xs text-white/60">
-              Trial: {Math.floor(trialRemaining / 60)}:{Math.floor(trialRemaining % 60).toString().padStart(2, '0')}
-            </span>
-          )}
-        </div>
-
-        <button
-          onClick={handleEndCall}
-          className="px-4 py-2 rounded-full bg-red-500/20 text-red-400 text-sm font-medium hover:bg-red-500/30"
-        >
-          End
-        </button>
-      </div>
-
-      {/* Scenario Picker */}
-      {showScenarioPicker && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div
-            className="absolute bottom-0 left-0 right-0 bg-[#1a1a1c] rounded-t-3xl p-6 animate-in slide-up-from-bottom duration-300"
-            onClick={(e) => e.stopPropagation()}
+          <button
+            onClick={handleEndCall}
+            className="px-4 py-2 rounded-full bg-red-500/20 text-red-400 text-sm font-medium hover:bg-red-500/30"
+            aria-label="End call"
           >
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-semibold">Choose a Scenario</h3>
-              <button
-                onClick={() => setShowScenarioPicker(false)}
-                className="text-white/60 hover:text-white"
-              >
-                ✕
-              </button>
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              {SCENARIOS.map((s, i) => (
+            End
+          </button>
+        </div>
+
+        {/* Scenario Picker - Centered Dialog */}
+        {showScenarioPicker && (
+          <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200">
+            <div
+              className="w-full max-w-lg bg-card rounded-2xl p-6 animate-in zoom-in-95 duration-200"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h3 className="text-xl font-semibold">Choose a Scenario</h3>
+                  <p className="text-sm text-muted-foreground mt-1">Practice real-world conversations</p>
+                </div>
                 <button
-                  key={s.id}
-                  onClick={() => handleScenarioSelect(s.id)}
-                  style={{ animationDelay: `${i * 50}ms` }}
-                  className={cn(
-                    'flex items-center gap-3 p-4 rounded-xl text-left transition-all animate-in fade-in-up duration-200',
-                    scenario === s.name
-                      ? 'bg-purple-500/20 border-2 border-purple-500'
-                      : 'bg-white/5 border-2 border-transparent hover:bg-white/10'
-                  )}
+                  onClick={() => setShowScenarioPicker(false)}
+                  className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-accent transition-colors"
+                  aria-label="Close"
                 >
-                  <span className="text-2xl">{s.icon}</span>
-                  <span className="text-sm font-medium">{s.name}</span>
+                  ✕
                 </button>
-              ))}
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {SCENARIOS.map((s, i) => (
+                  <button
+                    key={s.id}
+                    onClick={() => handleScenarioSelect(s.id)}
+                    className={cn(
+                      'group relative p-4 rounded-xl text-left transition-all duration-200',
+                      'hover:scale-105 hover:shadow-lg',
+                      'animate-in fade-in-up duration-200',
+                      scenario === s.name
+                        ? 'bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border-2 border-indigo-500/50'
+                        : 'bg-accent/50 hover:bg-accent border-2 border-transparent'
+                    )}
+                    style={{ animationDelay: `${i * 50}ms` }}
+                  >
+                    <span className="text-2xl mb-2 block group-hover:scale-110 transition-transform">
+                      {s.icon}
+                    </span>
+                    <span className="text-sm font-medium block">{s.name}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      )}
-
-      {/* Main Content - Audio Visualizer */}
-      <div className="flex-1 flex flex-col items-center justify-center px-4">
-        {/* Waveform/Orb */}
-        <div className="relative w-48 h-48 mb-8">
-          <div
-            className={cn(
-              'absolute inset-0 rounded-full transition-all duration-500',
-              status === 'active'
-                ? 'bg-gradient-to-br from-blue-500/30 to-purple-600/30'
-                : 'bg-white/5'
-            )}
-          >
-            {/* Audio visualizer bars */}
-            {status === 'active' && analyserRef.current && (
-              <AudioVisualizer analyser={analyserRef.current} isActive={status === 'active'} />
-            )}
-            <div className="absolute inset-4 rounded-full bg-[#0c0c0e] flex items-center justify-center z-10">
-              <Mic
-                className={cn(
-                  'w-16 h-16 transition-all',
-                  status === 'active' ? 'text-blue-400' : 'text-white/40'
-                )}
-              />
-            </div>
-          </div>
-          {/* Audio visualization rings */}
-          {status === 'active' && analyserRef.current && (
-            <>
-              <div className="absolute inset-0 rounded-full border-2 border-blue-500/30 animate-ping" />
-              <div className="absolute inset-[-10px] rounded-full border border-purple-500/20 animate-pulse" />
-            </>
-          )}
-        </div>
-
-        {/* Scenario Info */}
-        {scenario && (
-          <p className="text-sm text-white/60 mb-4">
-            Scenario: <span className="text-white font-medium">{scenario}</span>
-          </p>
         )}
 
-        {/* Action Chips */}
-        <div className="flex gap-2 flex-wrap justify-center">
-          <button
-            onClick={() => geminiLive.sendTextMessage('Please translate your last message into English.')}
-            className="px-4 py-2 rounded-full bg-white/5 text-sm text-white/80 hover:bg-white/10"
-          >
-            Translate last
-          </button>
-          <button
-            onClick={() => geminiLive.sendTextMessage('Please repeat that more slowly and clearly.')}
-            className="px-4 py-2 rounded-full bg-white/5 text-sm text-white/80 hover:bg-white/10"
-          >
-            Slow down
-          </button>
-          <button
-            onClick={() => geminiLive.sendTextMessage('Please repeat your last message.')}
-            className="px-4 py-2 rounded-full bg-white/5 text-sm text-white/80 hover:bg-white/10"
-          >
-            Repeat
-          </button>
-        </div>
-      </div>
-
-      {/* Transcript Drawer */}
-      <div className="border-t border-white/10">
-        <button
-          onClick={() => setShowTranscript(!showTranscript)}
-          className="w-full py-3 flex items-center justify-center gap-2 text-white/60 hover:text-white"
-        >
-          <span className="text-sm">Transcript</span>
-          <ChevronDown
-            className={cn(
-              'w-4 h-4 transition-transform',
-              showTranscript && 'rotate-180'
-            )}
-          />
-        </button>
-
-        {showTranscript && (
-          <div className="max-h-48 overflow-y-auto px-4 pb-4 space-y-2">
-            {transcript.map((entry, i) => (
-              <div
-                key={i}
-                className={cn(
-                  'text-sm p-3 rounded-xl',
-                  entry.role === 'user'
-                    ? 'bg-blue-500/20 ml-8'
-                    : 'bg-white/5 mr-8'
-                )}
-              >
-                {entry.correction && (
-                  <p className="text-xs text-orange-400 mb-1">
-                    Correction: {entry.correction.original} → {entry.correction.corrected}
-                  </p>
-                )}
-                <p className={entry.correction ? 'text-white/80' : ''}>
-                  {entry.content}
-                </p>
+        {/* Main Content - Audio Visualizer */}
+        <div className="flex-1 flex flex-col items-center justify-center px-4">
+          {/* Waveform/Orb */}
+          <div className="relative w-48 h-48 mb-8">
+            <div
+              className={cn(
+                'absolute inset-0 rounded-full transition-all duration-500',
+                status === 'active'
+                  ? 'bg-gradient-to-br from-blue-500/30 to-purple-600/30'
+                  : 'bg-white/5'
+              )}
+            >
+              {status === 'active' && analyserRef.current && (
+                <AudioVisualizer analyser={analyserRef.current} isActive={status === 'active'} />
+              )}
+              <div className="absolute inset-4 rounded-full bg-[#0c0c0e] flex items-center justify-center z-10">
+                <Mic
+                  className={cn(
+                    'w-16 h-16 transition-all',
+                    status === 'active' ? 'text-blue-400' : 'text-white/40'
+                  )}
+                />
               </div>
+            </div>
+            {status === 'active' && analyserRef.current && (
+              <>
+                <div className="absolute inset-0 rounded-full border-2 border-blue-500/30 animate-ping" />
+                <div className="absolute inset-[-10px] rounded-full border border-purple-500/20 animate-pulse" />
+              </>
+            )}
+          </div>
+
+          {/* Scenario Info */}
+          {scenario && (
+            <p className="text-sm text-white/60 mb-4">
+              Scenario: <span className="text-white font-medium">{scenario}</span>
+            </p>
+          )}
+
+          {/* Action Chips */}
+          <div className={cn(
+            "flex gap-2 flex-wrap justify-center transition-all duration-300",
+            status === 'active' && "translate-y-[-4px]"
+          )}>
+            {ACTION_CHIPS.map((chip) => (
+              <button
+                key={chip.label}
+                onClick={() => geminiLive.sendTextMessage(chip.message)}
+                className="px-4 py-2 rounded-full bg-white/5 text-sm text-white/80 hover:bg-white/10 hover:scale-105 transition-all"
+                aria-label={chip.label}
+              >
+                {chip.label}
+              </button>
             ))}
           </div>
-        )}
+        </div>
+
+        {/* Mobile Transcript Drawer */}
+        <div className="lg:hidden border-t border-white/10">
+          <button
+            onClick={() => setShowTranscript(!showTranscript)}
+            className="w-full py-3 flex items-center justify-center gap-2 text-white/60 hover:text-white"
+            aria-label={showTranscript ? 'Hide transcript' : 'Show transcript'}
+            aria-expanded={showTranscript}
+          >
+            <span className="text-sm">Transcript</span>
+            <ChevronDown
+              className={cn(
+                'w-4 h-4 transition-transform',
+                showTranscript && 'rotate-180'
+              )}
+            />
+          </button>
+
+          {showTranscript && (
+            <div className="max-h-[50vh] overflow-y-auto px-4 pb-4 space-y-2">
+              {transcript.map((entry, i) => (
+                <div
+                  key={i}
+                  className={cn(
+                    'text-sm p-3 rounded-xl',
+                    entry.role === 'user'
+                      ? 'bg-blue-500/20 ml-8'
+                      : 'bg-white/5 mr-8'
+                  )}
+                  style={{ animationDelay: `${i * 30}ms` }}
+                >
+                  {entry.correction && (
+                    <p className="text-xs text-orange-400 mb-1">
+                      Correction: {entry.correction.original} → {entry.correction.corrected}
+                    </p>
+                  )}
+                  <p className={entry.correction ? 'text-white/80' : ''}>
+                    {entry.content}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
+
+      {/* Desktop Transcript Sidebar */}
+      <aside className="hidden lg:flex w-80 border-l border-border bg-card/50 backdrop-blur-sm flex-col">
+        <div className="h-full flex flex-col">
+          <div className="px-4 py-3 border-b border-border flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            <h3 className="text-sm font-semibold">Live Transcript</h3>
+          </div>
+          <div className="flex-1 overflow-y-auto p-4 space-y-3">
+            {transcript.length === 0 ? (
+              <p className="text-sm text-muted-foreground text-center py-8">
+                Start speaking to see the transcript...
+              </p>
+            ) : (
+              transcript.map((entry, i) => (
+                <div
+                  key={i}
+                  className={cn(
+                    'text-sm p-3 rounded-xl animate-in slide-in-from-bottom-2 duration-200',
+                    entry.role === 'user'
+                      ? 'bg-blue-500/20 ml-4'
+                      : 'bg-white/5 mr-4'
+                  )}
+                  style={{ animationDelay: `${i * 30}ms` }}
+                >
+                  <p className="text-xs text-muted-foreground mb-1 capitalize">
+                    {entry.role === 'user' ? 'You' : 'Tutor'}
+                  </p>
+                  {entry.correction && (
+                    <p className="text-xs text-orange-400 mb-1">
+                      Correction: {entry.correction.original} → {entry.correction.corrected}
+                    </p>
+                  )}
+                  <p className={entry.correction ? 'text-white/80' : ''}>
+                    {entry.content}
+                  </p>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      </aside>
 
       {/* Latest Correction Toast */}
       {latestCorrection && (
-        <div className="fixed top-4 left-4 right-4 bg-orange-500/20 border border-orange-500/30 rounded-xl p-4 z-50">
+        <div className="fixed top-4 left-4 right-4 lg:left-auto lg:right-4 lg:w-80 bg-orange-500/20 border border-orange-500/30 rounded-xl p-4 z-50">
           <p className="text-sm font-medium text-orange-400 mb-1">Correction</p>
           <p className="text-sm">
             <span className="text-white/60">You said:</span>{' '}
@@ -469,6 +508,7 @@ Start by greeting the user warmly in Spanish and inviting them to choose what th
           <button
             onClick={() => setLatestCorrection(null)}
             className="absolute top-2 right-2 text-white/40 hover:text-white"
+            aria-label="Dismiss correction"
           >
             ✕
           </button>

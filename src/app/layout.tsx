@@ -38,8 +38,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`dark ${jakarta.variable} ${geistMono.variable}`}>
-      <body className="antialiased font-sans">
-        {children}
+      <body className="antialiased font-sans waveform-bg">
+        <a
+          href="#main-content"
+          className="sr-only sr-only-focusable"
+        >
+          Skip to main content
+        </a>
+        <main id="main-content">
+          {children}
+        </main>
       </body>
     </html>
   );

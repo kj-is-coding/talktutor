@@ -1,14 +1,28 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Search, ArrowLeft, BookOpen, Trash2 } from 'lucide-react';
+import { Search, ArrowLeft, BookOpen, Trash2, Volume2 } from 'lucide-react';
 import { createClient } from '@/lib/auth-client';
 import { getDictionaryEntries, deleteDictionaryEntry } from '@/lib/db-operations';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { EmptyState } from '@/components/ui/empty-state';
+import { Skeleton } from '@/components/ui/skeleton';
 import { DictionaryEntry } from '@/lib/types';
+import { useRouter } from 'next/navigation';
+import { cn } from '@/lib/utils';
+
+// Mock pronunciation data
+const PRONUNCIATIONS: Record<string, { ipa: string; audio?: string }> = {
+  'cafe': { ipa: '/kaˈfe/' },
+  'mesa': { ipa: '/ˈme.sa/' },
+  'hola': { ipa: '/ˈo.la/' },
+  'gracias': { ipa: '/ˈɡɾa.θjas/' },
+  'agua': { ipa: '/ˈa.ɣwa/' },
+};
 
 export default function DictionaryPage() {
+  const router = useRouter();
   const [entries, setEntries] = useState<DictionaryEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -27,6 +41,9 @@ export default function DictionaryPage() {
           const mockEntries: DictionaryEntry[] = [
             { id: '1', userId: 'demo', language: 'Spanish', term: 'cafe', meaning: 'Coffee shop', example: 'Voy a tomar un cafe.', scenario: 'cafe', createdAt: new Date() },
             { id: '2', userId: 'demo', language: 'Spanish', term: 'mesa', meaning: 'Table', example: 'Una mesa para dos, por favor.', scenario: 'restaurant', createdAt: new Date() },
+            { id: '3', userId: 'demo', language: 'Spanish', term: 'hola', meaning: 'Hello', example: '¡Hola! ¿Cómo estás?', scenario: 'meeting', createdAt: new Date() },
+            { id: '4', userId: 'demo', language: 'Spanish', term: 'gracias', meaning: 'Thank you', example: 'Muchas gracias por tu ayuda.', scenario: 'general', createdAt: new Date() },
+            { id: '5', userId: 'demo', language: 'Spanish', term: 'agua', meaning: 'Water', example: 'Un vaso de agua, por favor.', scenario: 'restaurant', createdAt: new Date() },
           ];
           setEntries(mockEntries);
         }
@@ -55,7 +72,7 @@ export default function DictionaryPage() {
 
   if (selectedEntry) {
     return (
-      <div className="min-h-[calc(100dvh-5rem)] bg-background px-5 py-6 md:py-8 md:max-w-2xl md:mx-auto animate-in">
+      <div className="min-h-[calc(100vh-8rem)] animate-in">
         <div className="flex items-center gap-3 mb-6">
           <button
             onClick={() => setSelectedEntry(null)}
@@ -121,7 +138,7 @@ export default function DictionaryPage() {
   }
 
   return (
-    <div className="min-h-[calc(100dvh-5rem)] bg-background px-5 py-6 md:py-8 md:max-w-2xl md:mx-auto">
+    <div className="min-h-[calc(100vh-8rem)]">
       <div className="flex items-center justify-between mb-5">
         <h1 className="text-xl font-semibold tracking-tight">Dictionary</h1>
         <span className="text-[13px] text-muted-foreground tabular-nums">{entries.length} words</span>
@@ -142,7 +159,7 @@ export default function DictionaryPage() {
       {loading ? (
         <div className="space-y-2">
           {[...Array(5)].map((_, i) => (
-            <div key={i} className="h-16 skeleton rounded-xl" />
+            <Skeleton key={i} className="h-16 w-full" />
           ))}
         </div>
       ) : (
@@ -151,26 +168,47 @@ export default function DictionaryPage() {
             <div>
               <p className="text-[13px] font-medium text-muted-foreground mb-2 px-1">New today</p>
               <div className="space-y-1">
-                {todayEntries.map((entry, i) => (
-                  <button
-                    key={entry.id}
-                    onClick={() => setSelectedEntry(entry)}
-                    className="list-item-in w-full bg-accent hover:bg-secondary rounded-xl p-4 text-left transition-colors"
-                    style={{ animationDelay: `${i * 50}ms` }}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium text-[15px]">{entry.term}</p>
-                        <p className="text-[13px] text-muted-foreground">{entry.meaning}</p>
-                      </div>
-                      {entry.scenario && (
-                        <span className="text-[11px] text-muted-foreground bg-secondary px-2 py-0.5 rounded-md">
-                          {entry.scenario}
-                        </span>
+                {todayEntries.map((entry, i) => {
+                  const pronunciation = PRONUNCIATIONS[entry.term.toLowerCase()];
+                  return (
+                    <div key={entry.id} className="group relative">
+                      <button
+                        onClick={() => setSelectedEntry(entry)}
+                        className="list-item-in w-full bg-accent hover:bg-secondary rounded-xl p-4 text-left transition-colors"
+                        style={{ animationDelay: `${i * 50}ms` }}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="font-medium text-[15px]">{entry.term}</p>
+                            <p className="text-[13px] text-muted-foreground">{entry.meaning}</p>
+                          </div>
+                          {entry.scenario && (
+                            <span className="text-[11px] text-muted-foreground bg-secondary px-2 py-0.5 rounded-md">
+                              {entry.scenario}
+                            </span>
+                          )}
+                        </div>
+                      </button>
+
+                      {/* Hover card with pronunciation */}
+                      {pronunciation && (
+                        <div className="word-hover-card absolute left-full top-0 ml-2 w-48 bg-card border border-border rounded-xl p-3 shadow-xl z-50">
+                          <div className="flex items-center gap-2 mb-2">
+                            <Volume2 className="w-3 h-3 text-primary" />
+                            <p className="text-xs text-muted-foreground">Pronunciation</p>
+                          </div>
+                          <p className="text-sm font-mono text-primary mb-2">{pronunciation.ipa}</p>
+                          {entry.example && (
+                            <>
+                              <p className="text-xs text-muted-foreground mb-1">Example</p>
+                              <p className="text-xs italic text-foreground/80">"{entry.example}"</p>
+                            </>
+                          )}
+                        </div>
                       )}
                     </div>
-                  </button>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
@@ -179,37 +217,63 @@ export default function DictionaryPage() {
             <div>
               <p className="text-[13px] font-medium text-muted-foreground mb-2 px-1">Recent</p>
               <div className="space-y-1">
-                {olderEntries.map((entry, i) => (
-                  <button
-                    key={entry.id}
-                    onClick={() => setSelectedEntry(entry)}
-                    className="list-item-in w-full bg-accent hover:bg-secondary rounded-xl p-4 text-left transition-colors"
-                    style={{ animationDelay: `${i * 50}ms` }}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium text-[15px]">{entry.term}</p>
-                        <p className="text-[13px] text-muted-foreground">{entry.meaning}</p>
-                      </div>
-                      {entry.scenario && (
-                        <span className="text-[11px] text-muted-foreground bg-secondary px-2 py-0.5 rounded-md">
-                          {entry.scenario}
-                        </span>
+                {olderEntries.map((entry, i) => {
+                  const pronunciation = PRONUNCIATIONS[entry.term.toLowerCase()];
+                  return (
+                    <div key={entry.id} className="group relative">
+                      <button
+                        onClick={() => setSelectedEntry(entry)}
+                        className="list-item-in w-full bg-accent hover:bg-secondary rounded-xl p-4 text-left transition-colors"
+                        style={{ animationDelay: `${i * 50}ms` }}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="font-medium text-[15px]">{entry.term}</p>
+                            <p className="text-[13px] text-muted-foreground">{entry.meaning}</p>
+                          </div>
+                          {entry.scenario && (
+                            <span className="text-[11px] text-muted-foreground bg-secondary px-2 py-0.5 rounded-md">
+                              {entry.scenario}
+                            </span>
+                          )}
+                        </div>
+                      </button>
+
+                      {pronunciation && (
+                        <div className="word-hover-card absolute left-full top-0 ml-2 w-48 bg-card border border-border rounded-xl p-3 shadow-xl z-50">
+                          <div className="flex items-center gap-2 mb-2">
+                            <Volume2 className="w-3 h-3 text-primary" />
+                            <p className="text-xs text-muted-foreground">Pronunciation</p>
+                          </div>
+                          <p className="text-sm font-mono text-primary mb-2">{pronunciation.ipa}</p>
+                          {entry.example && (
+                            <>
+                              <p className="text-xs text-muted-foreground mb-1">Example</p>
+                              <p className="text-xs italic text-foreground/80">"{entry.example}"</p>
+                            </>
+                          )}
+                        </div>
                       )}
                     </div>
-                  </button>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
 
-          {filteredEntries.length === 0 && (
-            <div className="text-center py-16">
-              <BookOpen className="w-8 h-8 mx-auto text-muted-foreground/40 mb-3" />
-              <p className="text-sm text-muted-foreground">
-                {searchQuery ? 'No words found' : 'Start a conversation to learn new words'}
-              </p>
-            </div>
+          {filteredEntries.length === 0 && !loading && (
+            <EmptyState
+              icon={<BookOpen className="w-8 h-8" />}
+              title={searchQuery ? 'No words found' : 'No words yet'}
+              description={searchQuery
+                ? 'Try a different search term'
+                : 'Start a voice call to build your vocabulary. New words will appear here.'
+              }
+              action={!searchQuery ? {
+                label: 'Start Practice',
+                onClick: () => router.push('/app'),
+              } : undefined}
+            />
           )}
         </div>
       )}

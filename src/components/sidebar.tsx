@@ -1,19 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { Mic, BookOpen, BarChart3, Settings } from 'lucide-react';
+import { NAV_ITEMS, useActivePathname } from '@/lib/navigation';
 import { cn } from '@/lib/utils';
 
-const navItems = [
-  { href: '/app', label: 'Speak', icon: Mic },
-  { href: '/app/dictionary', label: 'Dictionary', icon: BookOpen },
-  { href: '/app/progress', label: 'Progress', icon: BarChart3 },
-  { href: '/app/settings', label: 'Settings', icon: Settings },
-] as const;
-
 export function Sidebar() {
-  const pathname = usePathname();
+  const isActive = useActivePathname();
 
   return (
     <aside className="hidden md:flex fixed inset-y-0 left-0 z-40 w-[220px] flex-col bg-card border-r border-border">
@@ -33,23 +25,25 @@ export function Sidebar() {
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 px-3 py-4 space-y-0.5">
-        {navItems.map((item) => {
-          const isActive = pathname === item.href || (item.href === '/app' && pathname === '/app/chat');
+      <nav className="flex-1 px-3 py-4 space-y-0.5" aria-label="Main navigation">
+        {NAV_ITEMS.map((item) => {
+          const active = isActive(item.href);
           const Icon = item.icon;
 
           return (
             <Link
               key={item.href}
               href={item.href}
+              aria-label={item.label}
+              aria-current={active ? 'page' : undefined}
               className={cn(
                 'flex items-center gap-3 px-3 h-10 rounded-lg text-[13px] font-medium transition-colors',
-                isActive
+                active
                   ? 'bg-accent text-foreground border-l-2 border-primary'
                   : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
               )}
             >
-              <Icon className="w-[18px] h-[18px] shrink-0" />
+              <Icon className="w-[18px] h-[18px] shrink-0" aria-hidden="true" />
               {item.label}
             </Link>
           );
