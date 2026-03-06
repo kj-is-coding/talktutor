@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { createClient } from "@/lib/auth-client";
 import { claimGenericInvite } from "@/lib/invite-operations";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -36,7 +35,7 @@ export function InviteAcceptForm(props: Props) {
     setStatus("loading");
     setErrorMsg(null);
 
-    // First claim the invite
+    // Claim the invite (this now also creates auth user and returns session token)
     const claimResult = await claimGenericInvite(
       (props as ClaimFormProps).token,
       email.trim(),
@@ -49,46 +48,25 @@ export function InviteAcceptForm(props: Props) {
       return;
     }
 
-    // Then send magic link
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithOtp({
-      email: email.trim().toLowerCase(),
-      options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
-        data: {
-          name: name.trim(),
-        },
-      },
-    });
-
-    if (error) {
-      setErrorMsg(error.message);
-      setStatus("error");
-      return;
-    }
-
     setStatus("sent");
+
+    // Redirect to login page with email pre-filled
+    setTimeout(() => {
+      window.location.href = `/login?email=${encodeURIComponent(email.trim().toLowerCase())}`;
+    }, 1000);
   };
 
   const handleAccept = async () => {
     setStatus("loading");
 
-    const supabase = createClient();
-    await supabase.auth.signInWithOtp({
-      email: (props as AcceptFormProps).email,
-      options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
-        data: {
-          name: (props as AcceptFormProps).name,
-        },
-      },
-    });
-
+    // For accept mode, the invite was already claimed with known email
+    // Just redirect to login
     setStatus("sent");
-  };
 
-  // Get email for success message
-  const displayEmail = props.mode === "claim" ? email.trim().toLowerCase() : (props as AcceptFormProps).email;
+    setTimeout(() => {
+      window.location.href = `/login?email=${encodeURIComponent((props as AcceptFormProps).email)}`;
+    }, 1500);
+  };
 
   if (status === "sent") {
     return (
@@ -98,10 +76,9 @@ export function InviteAcceptForm(props: Props) {
             <path d="M20 6L9 17l-5-5" />
           </svg>
         </div>
-        <h2 className="text-lg font-semibold text-foreground mb-1.5">Check your email</h2>
+        <h2 className="text-lg font-semibold text-foreground mb-1.5">You're in!</h2>
         <p className="text-sm text-muted-foreground leading-relaxed">
-          We sent a magic link to{" "}
-          <span className="text-foreground font-medium">{displayEmail}</span>
+          Redirecting to login...
         </p>
       </div>
     );
