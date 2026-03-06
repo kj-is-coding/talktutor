@@ -84,7 +84,7 @@ function LoginForm() {
 
   return (
     <>
-      {authError && (
+      {authError && !emailParam && (
         <div className="w-full rounded-xl px-4 py-3 mb-5 text-center text-sm text-destructive bg-destructive/10 border border-destructive/20">
           Authentication failed. Please try again.
         </div>
