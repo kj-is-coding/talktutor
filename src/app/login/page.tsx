@@ -1,15 +1,23 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { createClient } from "@/lib/auth-client";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 function LoginForm() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const authError = searchParams.get("error");
   const emailParam = searchParams.get("email");
+
+  // Clean up URL by removing error parameter if email is present (from invite redirect)
+  useEffect(() => {
+    if (emailParam && authError) {
+      router.replace("/login?email=" + encodeURIComponent(emailParam));
+    }
+  }, [emailParam, authError, router]);
 
   const [email, setEmail] = useState(emailParam || "");
   const [status, setStatus] = useState<"idle" | "loading" | "sent" | "error">("idle");
