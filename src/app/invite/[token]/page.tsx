@@ -8,21 +8,28 @@ interface Props {
 
 export default async function InvitePage({ params }: Props) {
   const { token } = await params;
+  console.log('[INVITE DEBUG] Token:', token);
   const invitedUser = await getInvitedUserByToken(token);
+  console.log('[INVITE DEBUG] invitedUser:', JSON.stringify(invitedUser, null, 2));
 
   if (!invitedUser) {
+    console.log('[INVITE DEBUG] No user found - notFound()');
     notFound();
   }
 
   // If already accepted, redirect to login with message
   if (invitedUser.acceptedAt) {
+    console.log('[INVITE DEBUG] Already accepted - redirecting to login');
     redirect('/login?message=already_accepted');
   }
 
   // If already claimed (user entered their info), redirect to login
   if (invitedUser.claimedAt && invitedUser.email) {
+    console.log('[INVITE DEBUG] Already claimed - redirecting to login. claimedAt:', invitedUser.claimedAt, 'email:', invitedUser.email);
     redirect('/login?message=invite_claimed');
   }
+
+  console.log('[INVITE DEBUG] Showing form. isGeneric:', invitedUser.isGeneric);
 
   // Generic invite - show form to collect name/email
   if (invitedUser.isGeneric) {
