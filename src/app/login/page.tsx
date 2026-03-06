@@ -7,11 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "sent" | "error">("idle");
-  const [error, setError] = useState("");
   const searchParams = useSearchParams();
   const authError = searchParams.get("error");
+  const emailParam = searchParams.get("email");
+
+  const [email, setEmail] = useState(emailParam || "");
+  const [status, setStatus] = useState<"idle" | "loading" | "sent" | "error">("idle");
+  const [error, setError] = useState("");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
