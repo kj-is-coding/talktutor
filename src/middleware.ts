@@ -7,6 +7,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Skip auth for auth callback - it needs to run to create the session
+  if (request.nextUrl.pathname.startsWith('/auth/callback')) {
+    return NextResponse.next();
+  }
+
   return await updateSession(request);
 }
 
